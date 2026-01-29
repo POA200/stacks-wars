@@ -73,8 +73,8 @@ export default function LobbyPage() {
 
 	return (
 		<div className="container mx-auto px-4">
-			<div className="flex items-center justify-between gap-2 sm:gap-4 py-6 sm:py-8 lg:py-12">
-				<h1 className="text-xl sm:text-2xl lg:text-4xl font-bold">
+			<div className="flex items-center justify-between gap-2 py-6 sm:gap-4 sm:py-8 lg:py-12">
+				<h1 className="text-xl font-bold sm:text-2xl lg:text-4xl">
 					Available Lobbies
 				</h1>
 				<LobbyFilter
@@ -90,11 +90,11 @@ export default function LobbyPage() {
 					))}
 				</div>
 			) : lobbyInfo.length === 0 ? (
-				<div className="text-center py-16">
-					<p className="text-lg lg:text-xl font-medium text-muted-foreground">
+				<div className="py-16 text-center">
+					<p className="text-muted-foreground text-lg font-medium lg:text-xl">
 						No lobbies found matching your filters
 					</p>
-					<p className="text-sm text-muted-foreground mt-2">
+					<p className="text-muted-foreground mt-2 text-sm">
 						Try adjusting your filter settings
 					</p>
 				</div>
@@ -116,18 +116,18 @@ export default function LobbyPage() {
 							>
 								{isLoadingMore && hasPrevious ? (
 									<>
-										<Loader2 className="h-4 w-4 mr-2 animate-spin" />
+										<Loader2 className="mr-2 h-4 w-4 animate-spin" />
 										Loading...
 									</>
 								) : (
 									<>
-										<ChevronLeft className="h-4 w-4 mr-2" />
+										<ChevronLeft className="mr-2 h-4 w-4" />
 										Previous
 									</>
 								)}
 							</Button>
 
-							<span className="text-sm text-muted-foreground">
+							<span className="text-muted-foreground text-sm">
 								Page {currentPage} of {totalPages}
 							</span>
 
@@ -139,13 +139,13 @@ export default function LobbyPage() {
 							>
 								{isLoadingMore && hasNext ? (
 									<>
-										<Loader2 className="h-4 w-4 mr-2 animate-spin" />
+										<Loader2 className="mr-2 h-4 w-4 animate-spin" />
 										Loading...
 									</>
 								) : (
 									<>
 										Next
-										<ChevronRight className="h-4 w-4 ml-2" />
+										<ChevronRight className="ml-2 h-4 w-4" />
 									</>
 								)}
 							</Button>

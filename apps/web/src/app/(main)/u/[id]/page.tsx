@@ -37,10 +37,10 @@ export default async function page({
 					alt="cover photo"
 					width={1240}
 					height={280}
-					className="h-35 sm:h-70 sm:rounded-4xl w-full object-cover"
+					className="h-35 w-full object-cover sm:h-70 sm:rounded-4xl"
 				/>
 				<div className="flex justify-between px-4">
-					<Avatar className="rounded-full -translate-y-1/2 translate-x-10 sm:translate-x-20 -mb-12.5 sm:-mb-22.5 sm:border-4 border-background size-25 sm:size-45 text-3xl sm:text-6xl">
+					<Avatar className="border-background -mb-12.5 size-25 translate-x-10 -translate-y-1/2 rounded-full text-3xl sm:-mb-22.5 sm:size-45 sm:translate-x-20 sm:border-4 sm:text-6xl">
 						<AvatarImage
 							//src={"/images/avatar.svg"}
 							alt="profile photo"
@@ -64,27 +64,27 @@ export default async function page({
 					</div>
 				</div>
 			</div>
-			<div className="mt-4 sm:mt-7 space-y-1 w-full max-w-full px-4 text-center sm:text-left">
-				<p className="text-xl sm:text-4xl font-bold truncate w-full">
+			<div className="mt-4 w-full max-w-full space-y-1 px-4 text-center sm:mt-7 sm:text-left">
+				<p className="w-full truncate text-xl font-bold sm:text-4xl">
 					{user.displayName}
 				</p>
 				{user.username ? (
-					<p className="text-sm sm:text-2xl font-medium truncate w-full ">
+					<p className="w-full truncate text-sm font-medium sm:text-2xl">
 						@{user.username}{" "}
-						<span className="font-normal text-xs sm:text-xl text-foreground/70">
+						<span className="text-foreground/70 text-xs font-normal sm:text-xl">
 							({formatAddress(user.walletAddress)})
 						</span>
 					</p>
 				) : (
-					<p className="truncate w-full">{user.walletAddress}</p>
+					<p className="w-full truncate">{user.walletAddress}</p>
 				)}
 			</div>
 			{/* Player Rank */}
 			{/* Player Active Lobbies */}
 			{/* Private user uncliamed rewards */}
-			<div className="mt-8 sm:mt-12 px-4 sm:px-0">
-				<div className="flex justify-between items-center mb-4 sm:mb-6">
-					<h2 className="text-xl sm:text-3xl font-bold">
+			<div className="mt-8 px-4 sm:mt-12 sm:px-0">
+				<div className="mb-4 flex items-center justify-between sm:mb-6">
+					<h2 className="text-xl font-bold sm:text-3xl">
 						Created Games
 					</h2>
 					<CreateGameButton userProfile={user} />
@@ -96,7 +96,7 @@ export default async function page({
 						))}
 					</div>
 				) : (
-					<div className="text-center py-8 sm:py-12 text-muted-foreground">
+					<div className="text-muted-foreground py-8 text-center sm:py-12">
 						<p className="text-sm sm:text-base">
 							No games created yet
 						</p>

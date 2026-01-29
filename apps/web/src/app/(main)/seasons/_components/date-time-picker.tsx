@@ -98,14 +98,14 @@ export default function DateTimePicker({
 			</Popover>
 
 			{/* Time Picker */}
-			<div className="relative w-36 flex items-center">
-				<Clock className="absolute left-3 top-1/2 -translate-y-1/2 size-4 text-muted-foreground pointer-events-none" />
+			<div className="relative flex w-36 items-center">
+				<Clock className="text-muted-foreground pointer-events-none absolute top-1/2 left-3 size-4 -translate-y-1/2" />
 				<Input
 					type="time"
 					value={timeValue}
 					onChange={handleTimeChange}
 					disabled={disabled}
-					className="h-full pl-9 bg-background"
+					className="bg-background h-full pl-9"
 				/>
 			</div>
 		</div>

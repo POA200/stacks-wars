@@ -56,9 +56,9 @@ export default function FinalStandingsModal() {
 
 	return (
 		<Dialog open={isOpen} onOpenChange={(open) => !open && handleClose()}>
-			<DialogContent className="sm:max-w-lg max-h-[80vh] overflow-hidden flex flex-col">
+			<DialogContent className="flex max-h-[80vh] flex-col overflow-hidden sm:max-w-lg">
 				<DialogHeader>
-					<DialogTitle className="text-2xl font-bold text-center">
+					<DialogTitle className="text-center text-2xl font-bold">
 						Final Standings
 					</DialogTitle>
 					<DialogDescription className="text-center">
@@ -66,7 +66,7 @@ export default function FinalStandingsModal() {
 					</DialogDescription>
 				</DialogHeader>
 
-				<div className="flex-1 overflow-y-auto py-2 space-y-2">
+				<div className="flex-1 space-y-2 overflow-y-auto py-2">
 					{sortedStandings.map((player) => {
 						const rank = player.rank ?? 0;
 						const isTopThree = rank >= 1 && rank <= 3;
@@ -76,12 +76,12 @@ export default function FinalStandingsModal() {
 								key={player.userId}
 								href={`/u/${player.username || player.walletAddress}`}
 								className={cn(
-									"flex items-center gap-3 rounded-xl p-3 border transition-colors hover:bg-accent/50",
+									"hover:bg-accent/50 flex items-center gap-3 rounded-xl border p-3 transition-colors",
 									isTopThree ? rankColors[rank] : "bg-card"
 								)}
 							>
 								{/* Rank */}
-								<div className="flex size-8 items-center justify-center shrink-0">
+								<div className="flex size-8 shrink-0 items-center justify-center">
 									{isTopThree ? (
 										<Trophy
 											className={cn(
@@ -91,7 +91,7 @@ export default function FinalStandingsModal() {
 											strokeWidth={1.5}
 										/>
 									) : (
-										<span className="text-lg font-bold text-muted-foreground">
+										<span className="text-muted-foreground text-lg font-bold">
 											#{rank}
 										</span>
 									)}
@@ -110,13 +110,13 @@ export default function FinalStandingsModal() {
 								</Avatar>
 
 								{/* Player Info */}
-								<div className="flex-1 min-w-0">
+								<div className="min-w-0 flex-1">
 									{player.displayName ? (
 										<>
-											<p className="font-medium truncate">
+											<p className="truncate font-medium">
 												{player.displayName}
 											</p>
-											<p className="text-sm text-muted-foreground truncate">
+											<p className="text-muted-foreground truncate text-sm">
 												@
 												{player.username ||
 													formatAddress(
@@ -125,7 +125,7 @@ export default function FinalStandingsModal() {
 											</p>
 										</>
 									) : (
-										<p className="font-medium truncate">
+										<p className="truncate font-medium">
 											{player.username ||
 												formatAddress(
 													player.walletAddress
@@ -135,7 +135,7 @@ export default function FinalStandingsModal() {
 								</div>
 
 								{/* Stats */}
-								<div className="flex items-center gap-3 shrink-0">
+								<div className="flex shrink-0 items-center gap-3">
 									{/* Trust Rating */}
 									<div className="flex items-center gap-1 text-sm">
 										<span>{player.trustRating}</span>
@@ -155,7 +155,7 @@ export default function FinalStandingsModal() {
 					})}
 				</div>
 
-				<div className="pt-4 border-t">
+				<div className="border-t pt-4">
 					<Button onClick={handleClose} className="w-full">
 						Back to Lobby
 					</Button>

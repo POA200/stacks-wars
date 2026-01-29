@@ -34,18 +34,18 @@ export default function GameCard({
 	const isJoinRequestLoading = useIsActionLoading("joinRequest");
 
 	return (
-		<div className="flex flex-col items-center w-full">
-			<div className="flex flex-col-reverse sm:flex-row justify-between sm:items-center bg-card border p-4 sm:p-6 lg:p-8 rounded-3xl w-full">
-				<div className="sm:w-1/2 space-y-2 lg:space-y-4">
-					<h3 className="lg:text-[40px] text-2xl w-full truncate font-bold">
+		<div className="flex w-full flex-col items-center">
+			<div className="bg-card flex w-full flex-col-reverse justify-between rounded-3xl border p-4 sm:flex-row sm:items-center sm:p-6 lg:p-8">
+				<div className="space-y-2 sm:w-1/2 lg:space-y-4">
+					<h3 className="w-full truncate text-2xl font-bold lg:text-[40px]">
 						{game.name}
 					</h3>
-					<p className="text-base line-clamp-2 lg:text-2xl sm:font-medium">
+					<p className="line-clamp-2 text-base sm:font-medium lg:text-2xl">
 						{game.description}
 					</p>
-					<div className="flex gap-3 w-full overflow-hidden">
+					<div className="flex w-full gap-3 overflow-hidden">
 						{game.category && (
-							<span className="text-xs lg:text-sm bg-foreground/10 rounded-full py-2 md:py-2.5 px-4 md:px-5 md:font-medium">
+							<span className="bg-foreground/10 rounded-full px-4 py-2 text-xs md:px-5 md:py-2.5 md:font-medium lg:text-sm">
 								{game.category}
 							</span>
 						)}
@@ -72,12 +72,12 @@ export default function GameCard({
 					width={358}
 					height={182}
 					loading="lazy"
-					className="max-w-40 md:max-w-89.5 w-full self-center"
+					className="w-full max-w-40 self-center md:max-w-89.5"
 				/>
 			</div>
 			{action && (
 				<Button
-					className="-translate-y-1/2 w-full max-w-48 sm:max-w-52 lg:max-w-80 rounded-full text-sm sm:text-base lg:text-xl font-medium -mb-4 sm:-mb-6 lg:-mb-8 py-3 sm:py-3.5 lg:py-4 h-8 sm:h-12 lg:h-16 shadow-sm"
+					className="-mb-4 h-8 w-full max-w-48 -translate-y-1/2 rounded-full py-3 text-sm font-medium shadow-sm sm:-mb-6 sm:h-12 sm:max-w-52 sm:py-3.5 sm:text-base lg:-mb-8 lg:h-16 lg:max-w-80 lg:py-4 lg:text-xl"
 					variant={isInLobby ? "destructive" : "default"}
 					asChild={action !== "joinLobby" || !isAuthenticated}
 					onClick={

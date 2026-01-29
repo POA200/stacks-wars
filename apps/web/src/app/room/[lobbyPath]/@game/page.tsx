@@ -28,7 +28,7 @@ export default function GameSlot() {
 					<p className="text-muted-foreground text-lg">
 						Game component is missing for {lobby.gamePath}
 					</p>
-					<p className="text-sm text-muted-foreground mt-2">
+					<p className="text-muted-foreground mt-2 text-sm">
 						Please ensure the game plugin is properly registered if
 						you're the dev.
 					</p>

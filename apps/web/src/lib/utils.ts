@@ -26,10 +26,13 @@ export function displayUserIdentifier(user: User | PlayerState): string {
 	);
 }
 
-export function formatAmount(amount: number | string, decimals: number = 1): string {
-	const num = typeof amount === 'string' ? parseFloat(amount) : amount;
+export function formatAmount(
+	amount: number | string,
+	decimals: number = 1
+): string {
+	const num = typeof amount === "string" ? parseFloat(amount) : amount;
 
-	if (isNaN(num)) return '0';
+	if (isNaN(num)) return "0";
 
 	if (num === 0) return "0";
 
@@ -54,4 +57,3 @@ export function formatAmount(amount: number | string, decimals: number = 1): str
 
 	return cleanNumber + sizes[i];
 }
-

@@ -43,12 +43,12 @@ export function LobbyFilter({ value, onChange }: LobbyFilterProps) {
 			<DropdownMenuTrigger asChild>
 				<Button
 					variant="outline"
-					className="rounded-full p-2.5 sm:px-7 sm:py-3.5 has-[>svg]:px-2.5 sm:has-[>svg]:px-7 text-sm sm:text-base"
+					className="rounded-full p-2.5 text-sm has-[>svg]:px-2.5 sm:px-7 sm:py-3.5 sm:text-base sm:has-[>svg]:px-7"
 				>
 					<FilterIcon className="size-3.5 sm:size-4" />
 					Filter Lobbies
 					{selectedStatuses.length > 0 && (
-						<span className="rounded-full bg-primary px-2 py-1 text-xs text-primary-foreground">
+						<span className="bg-primary text-primary-foreground rounded-full px-2 py-1 text-xs">
 							{selectedStatuses.length}
 						</span>
 					)}
@@ -79,7 +79,7 @@ export function LobbyFilter({ value, onChange }: LobbyFilterProps) {
 								/>
 								<label
 									htmlFor={option.value}
-									className="text-sm cursor-pointer flex-1"
+									className="flex-1 cursor-pointer text-sm"
 								>
 									{option.label}
 								</label>

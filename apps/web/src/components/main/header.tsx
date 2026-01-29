@@ -35,10 +35,10 @@ export default function Header() {
 	const isAuthenticated = !isLoading && user;
 
 	const AuthSkeleton = () => (
-		<div className="flex gap-3 items-center mx-7 lg:mx-0">
-			<Skeleton className="size-12 lg:size-12.5 rounded-full" />
+		<div className="mx-7 flex items-center gap-3 lg:mx-0">
+			<Skeleton className="size-12 rounded-full lg:size-12.5" />
 			<div className="flex flex-col gap-1 lg:gap-2">
-				<Skeleton className="h-5 lg:h-6 w-28 lg:w-32" />
+				<Skeleton className="h-5 w-28 lg:h-6 lg:w-32" />
 				<Skeleton className="h-4 w-20 lg:w-24" />
 			</div>
 		</div>
@@ -55,13 +55,13 @@ export default function Header() {
 						width={51}
 						className="size-9.5 sm:size-12.5"
 					/>
-					<span className="text-xl sm:text-[28px] leading-[86%] font-medium">
+					<span className="text-xl leading-[86%] font-medium sm:text-[28px]">
 						Stacks Wars
 					</span>
 				</Link>
 
 				{/* Desktop Navigation */}
-				<nav className="hidden lg:flex items-center gap-x-10 text-2xl/8 font-medium">
+				<nav className="hidden items-center gap-x-10 text-2xl/8 font-medium lg:flex">
 					{navItems.map((item) => {
 						const isActive = pathname.startsWith(item.href);
 						return (
@@ -69,9 +69,9 @@ export default function Header() {
 								key={item.href}
 								href={item.href}
 								className={cn(
-									"transition-colors hover:text-primary",
+									"hover:text-primary transition-colors",
 									isActive
-										? "font-semibold text-foreground"
+										? "text-foreground font-semibold"
 										: "text-foreground/40"
 								)}
 							>
@@ -88,7 +88,7 @@ export default function Header() {
 					) : isAuthenticated ? (
 						<Link
 							href={`/u/${user.username || user.walletAddress}`}
-							className="flex gap-3 items-center max-w-75 w-full truncate"
+							className="flex w-full max-w-75 items-center gap-3 truncate"
 						>
 							<Avatar className="size-12.5">
 								<AvatarImage
@@ -112,7 +112,7 @@ export default function Header() {
 									<p className="text-2xl/6">
 										{user.displayName}
 									</p>
-									<p className="text-base/4 text-foreground/53">
+									<p className="text-foreground/53 text-base/4">
 										{user.username ||
 											formatAddress(user.walletAddress)}
 									</p>
@@ -150,13 +150,13 @@ export default function Header() {
 					</SheetTrigger>
 					<SheetContent side="right" className="w-90 gap-10">
 						<SheetHeader>
-							<SheetTitle className="font-medium text-xl leading-[85%]">
+							<SheetTitle className="text-xl leading-[85%] font-medium">
 								Stacks Wars
 							</SheetTitle>
 						</SheetHeader>
 
 						{/* Mobile Navigation */}
-						<nav className="flex flex-col gap-10 ml-7">
+						<nav className="ml-7 flex flex-col gap-10">
 							{navItems.map((item) => {
 								const isActive = pathname.startsWith(item.href);
 								return (
@@ -165,9 +165,9 @@ export default function Header() {
 										href={item.href}
 										onClick={() => setOpen(false)}
 										className={cn(
-											"text-xl font-medium transition-colors hover:text-primary",
+											"hover:text-primary text-xl font-medium transition-colors",
 											isActive
-												? "font-semibold text-foreground"
+												? "text-foreground font-semibold"
 												: "text-foreground/40"
 										)}
 									>
@@ -185,7 +185,7 @@ export default function Header() {
 								<Link
 									href={`/u/${user.username || user.walletAddress}`}
 									onClick={() => setOpen(false)}
-									className="flex gap-3 items-center mx-7 max-w-75 w-full truncate"
+									className="mx-7 flex w-full max-w-75 items-center gap-3 truncate"
 								>
 									<Avatar className="size-12">
 										<AvatarImage
@@ -209,7 +209,7 @@ export default function Header() {
 											<p className="text-lg font-medium">
 												{user.displayName}
 											</p>
-											<p className="text-sm text-foreground/53">
+											<p className="text-foreground/53 text-sm">
 												{user.username ||
 													formatAddress(
 														user.walletAddress
@@ -226,9 +226,9 @@ export default function Header() {
 									)}
 								</Link>
 							) : (
-								<div className="flex flex-col gap-6 mx-7">
+								<div className="mx-7 flex flex-col gap-6">
 									<Button
-										className="rounded-full w-full"
+										className="w-full rounded-full"
 										asChild
 									>
 										<Link
@@ -240,7 +240,7 @@ export default function Header() {
 									</Button>
 									<Button
 										variant={"outline"}
-										className="rounded-full w-full"
+										className="w-full rounded-full"
 										asChild
 									>
 										<Link

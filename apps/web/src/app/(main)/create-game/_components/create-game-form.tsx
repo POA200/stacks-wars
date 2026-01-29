@@ -164,7 +164,7 @@ export default function CreateGameForm({ onSuccess }: CreateGameFormProps) {
 							<FormControl>
 								<Input
 									placeholder="Enter game name"
-									className="text-sm sm:text-base h-10 sm:h-12"
+									className="h-10 text-sm sm:h-12 sm:text-base"
 									{...field}
 									maxLength={50}
 								/>
@@ -212,7 +212,7 @@ export default function CreateGameForm({ onSuccess }: CreateGameFormProps) {
 							<FormControl>
 								<Input
 									placeholder="/images/game.svg or https://..."
-									className="text-sm sm:text-base h-10 sm:h-12"
+									className="h-10 text-sm sm:h-12 sm:text-base"
 									{...field}
 								/>
 							</FormControl>
@@ -224,7 +224,7 @@ export default function CreateGameForm({ onSuccess }: CreateGameFormProps) {
 					)}
 				/>
 
-				<div className="grid grid-cols-1 sm:grid-cols-2 gap-4 sm:gap-6">
+				<div className="grid grid-cols-1 gap-4 sm:grid-cols-2 sm:gap-6">
 					<FormField
 						control={form.control}
 						name="minPlayers"
@@ -237,7 +237,7 @@ export default function CreateGameForm({ onSuccess }: CreateGameFormProps) {
 									<Input
 										type="number"
 										placeholder="2"
-										className="text-sm sm:text-base h-10 sm:h-12"
+										className="h-10 text-sm sm:h-12 sm:text-base"
 										{...field}
 										min={2}
 										max={16}
@@ -263,7 +263,7 @@ export default function CreateGameForm({ onSuccess }: CreateGameFormProps) {
 									<Input
 										type="number"
 										placeholder="10"
-										className="text-sm sm:text-base h-10 sm:h-12"
+										className="h-10 text-sm sm:h-12 sm:text-base"
 										{...field}
 										min={2}
 										max={100}
@@ -291,7 +291,7 @@ export default function CreateGameForm({ onSuccess }: CreateGameFormProps) {
 								defaultValue={field.value}
 							>
 								<FormControl>
-									<SelectTrigger className="text-sm sm:text-base h-10 sm:h-12 w-full">
+									<SelectTrigger className="h-10 w-full text-sm sm:h-12 sm:text-base">
 										<SelectValue placeholder="Select a category" />
 									</SelectTrigger>
 								</FormControl>
@@ -316,13 +316,13 @@ export default function CreateGameForm({ onSuccess }: CreateGameFormProps) {
 				/>
 
 				{error && (
-					<div className="text-sm text-destructive">{error}</div>
+					<div className="text-destructive text-sm">{error}</div>
 				)}
 
 				<div className="flex justify-end gap-3 pt-2">
 					<Button
 						type="submit"
-						className="rounded-full text-sm sm:text-base has-[>svg]:px-8 w-full sm:w-auto"
+						className="w-full rounded-full text-sm has-[>svg]:px-8 sm:w-auto sm:text-base"
 						disabled={form.formState.isSubmitting}
 					>
 						{form.formState.isSubmitting ? (

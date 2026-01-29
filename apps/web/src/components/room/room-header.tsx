@@ -40,7 +40,7 @@ export default function RoomHeader() {
 			<Button
 				asChild
 				variant={"link"}
-				className="has-[>svg]:px-0 px-0 py-2.5"
+				className="px-0 py-2.5 has-[>svg]:px-0"
 				onClick={handleBackClick}
 			>
 				<Link href={"/lobby"}>
@@ -50,7 +50,7 @@ export default function RoomHeader() {
 			</Button>
 			<div className="flex items-center gap-1.5 sm:gap-2">
 				{isConnecting ? (
-					<div className="flex items-center gap-1.5 text-sm text-muted-foreground">
+					<div className="text-muted-foreground flex items-center gap-1.5 text-sm">
 						<Wifi className="size-4 animate-pulse" />
 						<span className="hidden sm:inline">Connecting...</span>
 					</div>

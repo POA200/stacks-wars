@@ -49,7 +49,7 @@ export default function LogoutButton({ userProfile }: LogoutButtonProps) {
 					onClick={handleLogout}
 					disabled={isLoggingOut}
 					variant="outline"
-					className="rounded-full bg-muted text-xs sm:text-base h-6 sm:h-12 has-[>svg]:px-3.5 sm:has-[>svg]:px-7 -translate-y-1/2"
+					className="bg-muted h-6 -translate-y-1/2 rounded-full text-xs has-[>svg]:px-3.5 sm:h-12 sm:text-base sm:has-[>svg]:px-7"
 				>
 					{isLoggingOut ? (
 						<Loader2 className="animate-spin" />

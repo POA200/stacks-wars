@@ -130,11 +130,11 @@ export default function EditProfile({ userProfile }: EditProfileProps) {
 			{user?.id === userProfile.id && (
 				<Dialog open={open} onOpenChange={setOpen}>
 					<DialogTrigger asChild>
-						<Button className="rounded-full text-xs sm:text-base bg-muted hover:bg-muted/90 h-6 sm:h-12 has-[>svg]:px-3.5 sm:has-[>svg]:px-7 -translate-y-1/2">
+						<Button className="bg-muted hover:bg-muted/90 h-6 -translate-y-1/2 rounded-full text-xs has-[>svg]:px-3.5 sm:h-12 sm:text-base sm:has-[>svg]:px-7">
 							<FiEdit3 /> Edit Profile
 						</Button>
 					</DialogTrigger>
-					<DialogContent className="sm:max-w-106.25 rounded-4xl">
+					<DialogContent className="rounded-4xl sm:max-w-106.25">
 						<DialogHeader>
 							<DialogTitle className="text-xl sm:text-2xl">
 								Edit Profile
@@ -160,7 +160,7 @@ export default function EditProfile({ userProfile }: EditProfileProps) {
 											<FormControl>
 												<Input
 													placeholder="Enter username"
-													className="text-sm sm:text-base h-10 sm:h-12"
+													className="h-10 text-sm sm:h-12 sm:text-base"
 													{...field}
 													maxLength={20}
 												/>
@@ -184,7 +184,7 @@ export default function EditProfile({ userProfile }: EditProfileProps) {
 											<FormControl>
 												<Input
 													placeholder="Enter display name"
-													className="text-sm sm:text-base h-10 sm:h-12"
+													className="h-10 text-sm sm:h-12 sm:text-base"
 													{...field}
 													maxLength={50}
 												/>
@@ -198,7 +198,7 @@ export default function EditProfile({ userProfile }: EditProfileProps) {
 								/>
 
 								{error && (
-									<div className="text-sm text-destructive">
+									<div className="text-destructive text-sm">
 										{error}
 									</div>
 								)}
@@ -214,7 +214,7 @@ export default function EditProfile({ userProfile }: EditProfileProps) {
 									</Button>
 									<Button
 										type="submit"
-										className="rounded-full text-sm sm:text-base has-[>svg]:px-8"
+										className="rounded-full text-sm has-[>svg]:px-8 sm:text-base"
 										disabled={form.formState.isSubmitting}
 									>
 										{form.formState.isSubmitting ? (

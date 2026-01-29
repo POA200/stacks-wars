@@ -84,21 +84,21 @@ export default function CreateLobbyForm(game: Game) {
 	return (
 		<>
 			{progress?.restoredFromStorage ? (
-				<div className="bg-card border p-4 sm:p-6 lg:p-8 rounded-3xl w-full space-y-4 sm:space-y-6 mb-6">
+				<div className="bg-card mb-6 w-full space-y-4 rounded-3xl border p-4 sm:space-y-6 sm:p-6 lg:p-8">
 					<div className="space-y-3 sm:space-y-4">
 						<div className="flex items-center justify-between gap-2">
-							<p className="truncate text-base sm:text-lg lg:text-xl font-semibold">
+							<p className="truncate text-base font-semibold sm:text-lg lg:text-xl">
 								Resume Lobby Creation
 							</p>
-							<span className="inline-block bg-yellow-100 text-yellow-800 dark:bg-yellow-900 dark:text-yellow-200 rounded-full px-3 py-1 text-xs font-semibold">
+							<span className="inline-block rounded-full bg-yellow-100 px-3 py-1 text-xs font-semibold text-yellow-800 dark:bg-yellow-900 dark:text-yellow-200">
 								In Progress
 							</span>
 						</div>
-						<p className="text-xs sm:text-sm lg:text-base text-muted-foreground">
+						<p className="text-muted-foreground text-xs sm:text-sm lg:text-base">
 							You have an incomplete lobby creation in progress.
 						</p>
 						<div className="flex items-center gap-2 text-xs sm:text-sm">
-							<span className="font-mono bg-muted px-2 py-1 rounded">
+							<span className="bg-muted rounded px-2 py-1 font-mono">
 								{progress.contractAddress}
 							</span>
 							{progress.step === "deployed" && (
@@ -137,16 +137,16 @@ export default function CreateLobbyForm(game: Game) {
 				</div>
 			) : (
 				<Tabs defaultValue="normal" className="w-full">
-					<TabsList className="grid w-full grid-cols-2 gap-2 p-1 sm:p-2.5 rounded-full">
+					<TabsList className="grid w-full grid-cols-2 gap-2 rounded-full p-1 sm:p-2.5">
 						<TabsTrigger
 							value="normal"
-							className="data-[state=active]:bg-primary/50 text-xs sm:text-lg py-2 sm:py-2.5 rounded-full"
+							className="data-[state=active]:bg-primary/50 rounded-full py-2 text-xs sm:py-2.5 sm:text-lg"
 						>
 							Normal
 						</TabsTrigger>
 						<TabsTrigger
 							value="sponsored"
-							className="data-[state=active]:bg-primary/50 text-xs sm:text-lg py-2 sm:py-2.5 rounded-full"
+							className="data-[state=active]:bg-primary/50 rounded-full py-2 text-xs sm:py-2.5 sm:text-lg"
 						>
 							Sponsored
 						</TabsTrigger>

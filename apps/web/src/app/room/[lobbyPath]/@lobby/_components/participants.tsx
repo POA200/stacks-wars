@@ -73,9 +73,9 @@ export default function Participants() {
 	};
 
 	return (
-		<div className="border rounded-3xl p-4 sm:p-6 lg:p-8 space-y-4 sm:space-y-6">
+		<div className="space-y-4 rounded-3xl border p-4 sm:space-y-6 sm:p-6 lg:p-8">
 			<div className="space-y-3 sm:space-y-4">
-				<p className="text-base sm:text-lg lg:text-xl font-medium flex items-center gap-2">
+				<p className="flex items-center gap-2 text-base font-medium sm:text-lg lg:text-xl">
 					<Users className="size-4 sm:size-5" />
 					<span>Participants</span>
 				</p>
@@ -93,7 +93,7 @@ export default function Participants() {
 			</div>
 			{pendingPlayers.length > 0 && (
 				<div className="space-y-3 sm:space-y-4">
-					<p className="text-base sm:text-lg lg:text-xl font-medium flex items-center gap-2">
+					<p className="flex items-center gap-2 text-base font-medium sm:text-lg lg:text-xl">
 						<Clock className="size-4 sm:size-5" />
 						<span>Pending Requests</span>
 					</p>

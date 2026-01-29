@@ -74,7 +74,7 @@ export default function LoginModal() {
 					</CardHeader>
 					<div className="flex flex-col gap-4">
 						{error && (
-							<div className="rounded-md bg-destructive/10 p-3 text-sm text-destructive">
+							<div className="bg-destructive/10 text-destructive rounded-md p-3 text-sm">
 								{error}
 							</div>
 						)}
@@ -93,7 +93,7 @@ export default function LoginModal() {
 								"Connect with Stacks Wallet"
 							)}
 						</Button>
-						<p className="text-center text-xs text-muted-foreground">
+						<p className="text-muted-foreground text-center text-xs">
 							By connecting your wallet, you agree to our Terms of
 							Service and Privacy Policy.
 						</p>

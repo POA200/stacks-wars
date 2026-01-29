@@ -28,7 +28,7 @@ export default function SeasonsList({ initialSeasons }: SeasonsListProps) {
 
 	return (
 		<>
-			<div className="flex justify-end mb-6">
+			<div className="mb-6 flex justify-end">
 				<Button
 					onClick={() => setIsCreateDialogOpen(true)}
 					className="gap-2 rounded-full"
@@ -38,9 +38,9 @@ export default function SeasonsList({ initialSeasons }: SeasonsListProps) {
 				</Button>
 			</div>
 
-			<div className="grid grid-cols-1 gap-4 sm:gap-6 pb-8">
+			<div className="grid grid-cols-1 gap-4 pb-8 sm:gap-6">
 				{seasons.length === 0 ? (
-					<div className="text-center py-12 text-muted-foreground">
+					<div className="text-muted-foreground py-12 text-center">
 						<p className="text-lg font-medium">No seasons yet</p>
 						<p className="text-sm">Create the first season!</p>
 					</div>

@@ -301,17 +301,17 @@ export default function NormalLobbyForm({
 						</FormItem>
 					)}
 				/>
-				{error && <p className="text-sm text-destructive">{error}</p>}
+				{error && <p className="text-destructive text-sm">{error}</p>}
 				{isUserLoading ? (
-					<Skeleton className="flex justify-self-end w-full sm:w-fit rounded-full h-13 sm:min-w-30" />
+					<Skeleton className="flex h-13 w-full justify-self-end rounded-full sm:w-fit sm:min-w-30" />
 				) : isAuthenticated ? (
 					<Button
 						type="submit"
-						className="flex justify-self-end w-full sm:w-fit rounded-full"
+						className="flex w-full justify-self-end rounded-full sm:w-fit"
 						disabled={form.formState.isSubmitting}
 					>
 						{form.formState.isSubmitting && (
-							<Loader2 className="mr-2 h-4 w-4 animate-spin inline-block align-middle" />
+							<Loader2 className="mr-2 inline-block h-4 w-4 animate-spin align-middle" />
 						)}
 						{form.formState.isSubmitting
 							? progress || "Creating..."
@@ -320,7 +320,7 @@ export default function NormalLobbyForm({
 				) : (
 					<Button
 						type="button"
-						className="flex justify-self-end w-full sm:w-fit rounded-full"
+						className="flex w-full justify-self-end rounded-full sm:w-fit"
 						asChild
 					>
 						<Link href="/login">Login to Create a Lobby</Link>
