@@ -1,14 +1,10 @@
 "use client";
 
 import { SiGoogle } from "@icons-pack/react-simple-icons";
-import {
-	connect,
-	getLocalStorage,
-	isConnected as isWalletConnected,
-} from "@stacks/connect";
 import { DOMAIN_NAME, siteConfig } from "@stacks-wars/shared";
 import { CheckCircle2, Loader2, Wallet } from "lucide-react";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 import type React from "react";
 import { useState } from "react";
 import { toast } from "sonner";
@@ -21,11 +17,14 @@ import {
 	DialogTitle,
 	DialogTrigger,
 } from "@/components/ui/dialog";
-import { authClient } from "@/lib/auth-client";
 import { ApiClient } from "@/lib/api/client";
 import type { User } from "@/lib/definitions";
 import { useUser, useUserActions } from "@/lib/stores/user";
-import { connectWallet, disconnectWallet } from "@/lib/wallet";
+
+let connect: typeof import("@stacks/connect").connect;
+if (typeof window !== "undefined") {
+	connect = (await import("@stacks/connect")).connect;
+}
 
 type AuthMode = "login" | "signup";
 type AuthType = "wallet" | "google";
@@ -33,20 +32,15 @@ type AuthType = "wallet" | "google";
 interface AuthDialogProps {
 	trigger?: React.ReactNode;
 	open?: boolean;
-	onOpenChange?: (open: boolean) => void;
 	mode?: AuthMode;
 }
 
-export function AuthDialog({
-	trigger,
-	open,
-	onOpenChange,
-	mode = "login",
-}: AuthDialogProps) {
+export function AuthDialog({ trigger, open, mode = "login" }: AuthDialogProps) {
 	const [isConnecting, setIsConnecting] = useState<AuthType | null>(null);
 	const [isConnected, setIsConnected] = useState<AuthType | null>(null);
 	const user = useUser();
 	const { setUser, clearUser } = useUserActions();
+	const router = useRouter();
 
 	const isSignup = mode === "signup";
 	const title = isSignup ? "Create your account" : "Sign in to your account";
@@ -65,7 +59,7 @@ export function AuthDialog({
 				clearUser();
 			}
 
-			const address = await connectWallet();
+			const address = (await connect()).addresses[2].address;
 
 			if (!address) {
 				toast.error("Failed to connect to wallet");
@@ -117,7 +111,7 @@ export function AuthDialog({
 				toast.success("Authenticated");
 				setIsConnected("wallet");
 				setUser(authResponse.data);
-				onOpenChange?.(false);
+				router.refresh();
 			}
 		} catch (error) {
 			console.error("Stacks authentication error:", error);
@@ -145,14 +139,14 @@ export function AuthDialog({
 	};
 
 	return (
-		<Dialog open={open} onOpenChange={onOpenChange}>
+		<Dialog open={open} onOpenChange={() => router.back()}>
 			{trigger && <DialogTrigger asChild>{trigger}</DialogTrigger>}
-			<DialogContent className="sm:max-w-md border-border bg-card">
-				<DialogHeader className="text-center space-y-3">
-					<div className="mx-auto flex h-12 w-12 items-center justify-center rounded-full bg-accent/10 border border-accent/20">
-						<div className="h-3 w-3 rounded-full bg-accent" />
+			<DialogContent className="border-border bg-card sm:max-w-md">
+				<DialogHeader className="space-y-3 text-center">
+					<div className="bg-accent/10 border-accent/20 mx-auto flex h-12 w-12 items-center justify-center rounded-full border">
+						<div className="bg-accent h-3 w-3 rounded-full" />
 					</div>
-					<DialogTitle className="text-xl font-semibold text-foreground">
+					<DialogTitle className="text-foreground text-xl font-semibold">
 						{title}
 					</DialogTitle>
 					<DialogDescription className="text-muted-foreground">
@@ -172,7 +166,7 @@ export function AuthDialog({
 						{isConnecting === "wallet" ? (
 							<Loader2 className="h-5 w-5 animate-spin" />
 						) : isConnected === "wallet" ? (
-							<CheckCircle2 className="h-5 w-5 text-accent" />
+							<CheckCircle2 className="text-accent h-5 w-5" />
 						) : (
 							<Wallet className="h-5 w-5" />
 						)}
@@ -184,7 +178,7 @@ export function AuthDialog({
 									: walletText}
 						</span>
 						{!isConnecting && !isConnected && (
-							<span className="text-xs text-muted-foreground">
+							<span className="text-muted-foreground text-xs">
 								Leather, Xverse...
 							</span>
 						)}
@@ -192,10 +186,10 @@ export function AuthDialog({
 
 					<div className="relative">
 						<div className="absolute inset-0 flex items-center">
-							<div className="w-full border-t border-border" />
+							<div className="border-border w-full border-t" />
 						</div>
 						<div className="relative flex justify-center text-xs">
-							<span className="bg-card px-3 text-muted-foreground">
+							<span className="bg-card text-muted-foreground px-3">
 								or
 							</span>
 						</div>
@@ -212,7 +206,7 @@ export function AuthDialog({
 						{isConnecting === "google" ? (
 							<Loader2 className="h-5 w-5 animate-spin" />
 						) : isConnected === "google" ? (
-							<CheckCircle2 className="h-5 w-5 text-accent" />
+							<CheckCircle2 className="text-accent h-5 w-5" />
 						) : (
 							<SiGoogle size={14} title="X icon" className="" />
 						)}
@@ -230,7 +224,7 @@ export function AuthDialog({
 					</Button>
 				</div>
 
-				<p className="mt-6 text-center text-xs text-muted-foreground">
+				<p className="text-muted-foreground mt-6 text-center text-xs">
 					{isSignup ? (
 						<>
 							Already have an account?{" "}
@@ -247,7 +241,7 @@ export function AuthDialog({
 						</>
 					)}
 				</p>
-				<p className="text-center text-xs text-muted-foreground">
+				<p className="text-muted-foreground text-center text-xs">
 					By continuing, you agree to our{" "}
 					<Link href={"/"} className="text-accent hover:underline">
 						Terms of Service

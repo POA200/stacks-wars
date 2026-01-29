@@ -2,6 +2,7 @@ pub mod game;
 pub mod lobby;
 pub mod platform_rating;
 pub mod season;
+pub mod stacks;
 pub mod user;
 pub mod user_wars_point;
 pub mod username;
@@ -13,7 +14,7 @@ pub mod lobby_state;
 pub mod player_state;
 
 pub use game::Game;
-pub use lobby::{Lobby, LobbyExtended};
+pub use lobby::{Lobby, LobbyExtended, LobbyInfo};
 pub use platform_rating::PlatformRating;
 pub use season::Season;
 pub use user::User;

@@ -1,4 +1,5 @@
 // PlayerState: runtime Redis representation for player participation
+use crate::db::join_request::JoinRequestState;
 use crate::errors::AppError;
 use chrono::Utc;
 use serde::{Deserialize, Serialize};
@@ -75,6 +76,9 @@ pub struct PlayerState {
     /// Current player status (NotJoined, Joined)
     pub status: PlayerStatus,
 
+    /// Join request state (Pending, Accepted, Rejected)
+    pub state: JoinRequestState,
+
     /// Transaction ID for entry payment
     pub tx_id: Option<String>,
 
@@ -83,6 +87,9 @@ pub struct PlayerState {
 
     /// Prize amount won
     pub prize: Option<f64>,
+
+    /// Wars points earned from this game
+    pub wars_point: Option<f64>,
 
     /// Prize claim status
     pub claim_state: Option<ClaimState>,
@@ -118,6 +125,7 @@ impl PlayerState {
             user_id,
             lobby_id,
             status: PlayerStatus::Joined,
+            state: JoinRequestState::Accepted,
             wallet_address,
             username,
             display_name,
@@ -125,6 +133,7 @@ impl PlayerState {
             tx_id,
             rank: None,
             prize: None,
+            wars_point: None,
             claim_state: None,
             last_ping: Some(Utc::now().timestamp_millis() as u64),
             joined_at: now,
@@ -140,6 +149,7 @@ impl PlayerState {
         map.insert("user_id".to_string(), self.user_id.to_string());
         map.insert("lobby_id".to_string(), self.lobby_id.to_string());
         map.insert("status".to_string(), format!("{:?}", self.status));
+        map.insert("state".to_string(), format!("{:?}", self.state));
         map.insert("wallet_address".to_string(), self.wallet_address.clone());
         map.insert("trust_rating".to_string(), self.trust_rating.to_string());
         map.insert("joined_at".to_string(), self.joined_at.to_string());
@@ -195,6 +205,16 @@ impl PlayerState {
             .and_then(|s| s.parse::<PlayerStatus>().ok())
             .ok_or_else(|| AppError::InvalidInput("Missing or invalid status".into()))?;
 
+        let state = data
+            .get("state")
+            .and_then(|s| match s.as_str() {
+                "pending" => Some(JoinRequestState::Pending),
+                "accepted" => Some(JoinRequestState::Accepted),
+                "rejected" => Some(JoinRequestState::Rejected),
+                _ => None,
+            })
+            .unwrap_or(JoinRequestState::Accepted);
+
         let wallet_address = data
             .get("wallet_address")
             .cloned()
@@ -213,6 +233,8 @@ impl PlayerState {
         let rank = data.get("rank").and_then(|r| r.parse::<usize>().ok());
 
         let prize = data.get("prize").and_then(|p| p.parse::<f64>().ok());
+
+        let wars_point = data.get("wars_point").and_then(|v| v.parse().ok());
 
         let claim_state = data
             .get("claim_state")
@@ -239,6 +261,7 @@ impl PlayerState {
             user_id,
             lobby_id,
             status,
+            state,
             wallet_address,
             username,
             display_name,
@@ -246,6 +269,7 @@ impl PlayerState {
             tx_id,
             rank,
             prize,
+            wars_point,
             claim_state,
             last_ping,
             joined_at,
@@ -293,6 +317,7 @@ mod tests {
         assert_eq!(state.user_id, user_id);
         assert_eq!(state.lobby_id, lobby_id);
         assert_eq!(state.status, PlayerStatus::Joined);
+        assert!(matches!(state.state, JoinRequestState::Accepted));
         assert_eq!(state.wallet_address, wallet_address);
         assert_eq!(state.username, username);
         assert_eq!(state.display_name, display_name);
@@ -323,6 +348,7 @@ mod tests {
         assert_eq!(hash.get("user_id").unwrap(), &user_id.to_string());
         assert_eq!(hash.get("lobby_id").unwrap(), &lobby_id.to_string());
         assert_eq!(hash.get("status").unwrap(), "Joined");
+        assert_eq!(hash.get("state").unwrap(), "Accepted");
         assert_eq!(hash.get("wallet_address").unwrap(), "SP123ABC");
         assert_eq!(hash.get("username").unwrap(), "player1");
         assert_eq!(hash.get("display_name").unwrap(), "Player One");

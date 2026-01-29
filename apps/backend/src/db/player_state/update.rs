@@ -2,6 +2,7 @@
 
 use crate::db::player_state::PlayerStateRepository;
 use crate::errors::AppError;
+use crate::models::RedisKey;
 use crate::models::player_state::{ClaimState, PlayerStatus};
 use chrono::Utc;
 use redis::AsyncCommands;
@@ -19,7 +20,7 @@ impl PlayerStateRepository {
             self.redis.get().await.map_err(|e| {
                 AppError::RedisError(format!("Failed to get Redis connection: {}", e))
             })?;
-        let key = format!("lobbies:{}:players:{}", lobby_id, user_id);
+        let key = RedisKey::lobby_player(lobby_id, user_id);
 
         // Check if exists
         let exists: bool = conn
@@ -52,23 +53,28 @@ impl PlayerStateRepository {
         Ok(())
     }
 
-    /// Set player rank and prize (for winners).
+    /// Set player rank, prize, and wars_point (for game results).
     pub async fn set_result(
         &self,
         lobby_id: Uuid,
         user_id: Uuid,
         rank: usize,
         prize: Option<f64>,
+        wars_point: f64,
     ) -> Result<(), AppError> {
         let mut conn =
             self.redis.get().await.map_err(|e| {
                 AppError::RedisError(format!("Failed to get Redis connection: {}", e))
             })?;
-        let key = format!("lobbies:{}:players:{}", lobby_id, user_id);
+        let key = RedisKey::lobby_player(lobby_id, user_id);
 
         let now = Utc::now().timestamp();
 
-        let mut fields = vec![("rank", rank.to_string()), ("updated_at", now.to_string())];
+        let mut fields = vec![
+            ("rank", rank.to_string()),
+            ("wars_point", wars_point.to_string()),
+            ("updated_at", now.to_string()),
+        ];
 
         if let Some(prize_amount) = prize {
             fields.push(("prize", prize_amount.to_string()));
@@ -99,7 +105,7 @@ impl PlayerStateRepository {
             self.redis.get().await.map_err(|e| {
                 AppError::RedisError(format!("Failed to get Redis connection: {}", e))
             })?;
-        let key = format!("lobbies:{}:players:{}", lobby_id, user_id);
+        let key = RedisKey::lobby_player(lobby_id, user_id);
 
         let now = Utc::now().timestamp();
 
@@ -128,7 +134,7 @@ impl PlayerStateRepository {
             self.redis.get().await.map_err(|e| {
                 AppError::RedisError(format!("Failed to get Redis connection: {}", e))
             })?;
-        let key = format!("lobbies:{}:players:{}", lobby_id, user_id);
+        let key = RedisKey::lobby_player(lobby_id, user_id);
 
         let now = Utc::now().timestamp();
 
@@ -153,7 +159,7 @@ impl PlayerStateRepository {
             self.redis.get().await.map_err(|e| {
                 AppError::RedisError(format!("Failed to get Redis connection: {}", e))
             })?;
-        let key = format!("lobbies:{}:players:{}", lobby_id, user_id);
+        let key = RedisKey::lobby_player(lobby_id, user_id);
 
         let now = Utc::now().timestamp();
 
@@ -179,7 +185,7 @@ impl PlayerStateRepository {
             self.redis.get().await.map_err(|e| {
                 AppError::RedisError(format!("Failed to get Redis connection: {}", e))
             })?;
-        let key = format!("lobbies:{}:players:{}", lobby_id, user_id);
+        let key = RedisKey::lobby_player(lobby_id, user_id);
 
         let now = Utc::now().timestamp();
         let claim_str = format!("{:?}", claim_state);
@@ -204,7 +210,7 @@ impl PlayerStateRepository {
             self.redis.get().await.map_err(|e| {
                 AppError::RedisError(format!("Failed to get Redis connection: {}", e))
             })?;
-        let key = format!("lobbies:{}:players:{}", lobby_id, user_id);
+        let key = RedisKey::lobby_player(lobby_id, user_id);
 
         let now_ms = Utc::now().timestamp_millis() as u64;
         let now = Utc::now().timestamp();
@@ -229,7 +235,7 @@ impl PlayerStateRepository {
             self.redis.get().await.map_err(|e| {
                 AppError::RedisError(format!("Failed to get Redis connection: {}", e))
             })?;
-        let key = format!("lobbies:{}:players:{}", lobby_id, user_id);
+        let key = RedisKey::lobby_player(lobby_id, user_id);
 
         let now = Utc::now().timestamp();
 
