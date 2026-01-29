@@ -5,6 +5,7 @@ import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import * as z from "zod";
 import { Loader2 } from "lucide-react";
+import { FiEdit3 } from "react-icons/fi";
 
 import {
 	Dialog,
@@ -26,7 +27,7 @@ import {
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { ApiClient } from "@/lib/api/client";
-import { useUserActions } from "@/lib/stores/user";
+import { useUser, useUserActions } from "@/lib/stores/user";
 import type { User } from "@/lib/definitions";
 import { useRouter } from "next/navigation";
 
@@ -59,24 +60,21 @@ const editProfileSchema = z.object({
 type EditProfileFormValues = z.infer<typeof editProfileSchema>;
 
 interface EditProfileProps {
-	children: React.ReactNode;
-	currentUser: User;
+	userProfile: User;
 }
 
-export default function EditProfile({
-	children,
-	currentUser,
-}: EditProfileProps) {
+export default function EditProfile({ userProfile }: EditProfileProps) {
 	const [open, setOpen] = useState(false);
 	const [error, setError] = useState<string | null>(null);
 	const { updateUser } = useUserActions();
+	const user = useUser();
 	const router = useRouter();
 
 	const form = useForm<EditProfileFormValues>({
 		resolver: zodResolver(editProfileSchema),
 		defaultValues: {
-			username: currentUser.username || "",
-			displayName: currentUser.displayName || "",
+			username: userProfile.username || "",
+			displayName: userProfile.displayName || "",
 		},
 	});
 
@@ -86,13 +84,13 @@ export default function EditProfile({
 		// Only include fields that have changed and are not empty
 		const payload: Partial<User> = {};
 
-		if (values.username && values.username !== currentUser.username) {
+		if (values.username && values.username !== userProfile.username) {
 			payload.username = values.username;
 		}
 
 		if (
 			values.displayName &&
-			values.displayName !== currentUser.displayName
+			values.displayName !== userProfile.displayName
 		) {
 			payload.displayName = values.displayName;
 		}
@@ -128,104 +126,112 @@ export default function EditProfile({
 	};
 
 	return (
-		<Dialog open={open} onOpenChange={setOpen}>
-			<DialogTrigger asChild>{children}</DialogTrigger>
-			<DialogContent className="sm:max-w-106.25 rounded-4xl">
-				<DialogHeader>
-					<DialogTitle className="text-xl sm:text-2xl">
-						Edit Profile
-					</DialogTitle>
-					<DialogDescription className="text-sm sm:text-base">
-						Update your profile.
-					</DialogDescription>
-				</DialogHeader>
+		<>
+			{user?.id === userProfile.id && (
+				<Dialog open={open} onOpenChange={setOpen}>
+					<DialogTrigger asChild>
+						<Button className="rounded-full text-xs sm:text-base bg-muted hover:bg-muted/90 h-6 sm:h-12 has-[>svg]:px-3.5 sm:has-[>svg]:px-7 -translate-y-1/2">
+							<FiEdit3 /> Edit Profile
+						</Button>
+					</DialogTrigger>
+					<DialogContent className="sm:max-w-106.25 rounded-4xl">
+						<DialogHeader>
+							<DialogTitle className="text-xl sm:text-2xl">
+								Edit Profile
+							</DialogTitle>
+							<DialogDescription className="text-sm sm:text-base">
+								Update your profile.
+							</DialogDescription>
+						</DialogHeader>
 
-				<Form {...form}>
-					<form
-						onSubmit={form.handleSubmit(onSubmit)}
-						className="space-y-4 sm:space-y-6"
-					>
-						<FormField
-							control={form.control}
-							name="username"
-							render={({ field }) => (
-								<FormItem>
-									<FormLabel className="text-sm sm:text-base">
-										Username
-									</FormLabel>
-									<FormControl>
-										<Input
-											placeholder="Enter username"
-											className="text-sm sm:text-base h-10 sm:h-12"
-											{...field}
-											maxLength={20}
-										/>
-									</FormControl>
-									<FormDescription className="text-xs sm:text-sm">
-										3-20 characters.
-									</FormDescription>
-									<FormMessage />
-								</FormItem>
-							)}
-						/>
-
-						<FormField<EditProfileFormValues>
-							control={form.control}
-							name="displayName"
-							render={({ field }) => (
-								<FormItem>
-									<FormLabel className="text-sm sm:text-base">
-										Display Name
-									</FormLabel>
-									<FormControl>
-										<Input
-											placeholder="Enter display name"
-											className="text-sm sm:text-base h-10 sm:h-12"
-											{...field}
-											maxLength={50}
-										/>
-									</FormControl>
-									<FormDescription className="text-xs sm:text-sm">
-										2-50 characters.
-									</FormDescription>
-									<FormMessage />
-								</FormItem>
-							)}
-						/>
-
-						{error && (
-							<div className="text-sm text-destructive">
-								{error}
-							</div>
-						)}
-
-						<div className="flex justify-end gap-3">
-							<Button
-								type="button"
-								variant="outline"
-								onClick={() => setOpen(false)}
-								className="rounded-full text-sm sm:text-base"
+						<Form {...form}>
+							<form
+								onSubmit={form.handleSubmit(onSubmit)}
+								className="space-y-4 sm:space-y-6"
 							>
-								Cancel
-							</Button>
-							<Button
-								type="submit"
-								className="rounded-full text-sm sm:text-base has-[>svg]:px-8"
-								disabled={form.formState.isSubmitting}
-							>
-								{form.formState.isSubmitting ? (
-									<>
-										<Loader2 className="mr-2 h-4 w-4 animate-spin" />
-										Saving...
-									</>
-								) : (
-									"Save Changes"
+								<FormField
+									control={form.control}
+									name="username"
+									render={({ field }) => (
+										<FormItem>
+											<FormLabel className="text-sm sm:text-base">
+												Username
+											</FormLabel>
+											<FormControl>
+												<Input
+													placeholder="Enter username"
+													className="text-sm sm:text-base h-10 sm:h-12"
+													{...field}
+													maxLength={20}
+												/>
+											</FormControl>
+											<FormDescription className="text-xs sm:text-sm">
+												3-20 characters.
+											</FormDescription>
+											<FormMessage />
+										</FormItem>
+									)}
+								/>
+
+								<FormField<EditProfileFormValues>
+									control={form.control}
+									name="displayName"
+									render={({ field }) => (
+										<FormItem>
+											<FormLabel className="text-sm sm:text-base">
+												Display Name
+											</FormLabel>
+											<FormControl>
+												<Input
+													placeholder="Enter display name"
+													className="text-sm sm:text-base h-10 sm:h-12"
+													{...field}
+													maxLength={50}
+												/>
+											</FormControl>
+											<FormDescription className="text-xs sm:text-sm">
+												2-50 characters.
+											</FormDescription>
+											<FormMessage />
+										</FormItem>
+									)}
+								/>
+
+								{error && (
+									<div className="text-sm text-destructive">
+										{error}
+									</div>
 								)}
-							</Button>
-						</div>
-					</form>
-				</Form>
-			</DialogContent>
-		</Dialog>
+
+								<div className="flex justify-end gap-3">
+									<Button
+										type="button"
+										variant="outline"
+										onClick={() => setOpen(false)}
+										className="rounded-full text-sm sm:text-base"
+									>
+										Cancel
+									</Button>
+									<Button
+										type="submit"
+										className="rounded-full text-sm sm:text-base has-[>svg]:px-8"
+										disabled={form.formState.isSubmitting}
+									>
+										{form.formState.isSubmitting ? (
+											<>
+												<Loader2 className="mr-2 h-4 w-4 animate-spin" />
+												Saving...
+											</>
+										) : (
+											"Save Changes"
+										)}
+									</Button>
+								</div>
+							</form>
+						</Form>
+					</DialogContent>
+				</Dialog>
+			)}
+		</>
 	);
 }

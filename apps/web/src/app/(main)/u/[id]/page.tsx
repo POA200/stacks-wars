@@ -1,17 +1,13 @@
 import NotFound from "@/app/not-found";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
-import { Button } from "@/components/ui/button";
 import { ApiClient } from "@/lib/api/client";
 import type { User, Game } from "@/lib/definitions";
 import { formatAddress } from "@/lib/utils";
 import Image from "next/image";
-import { FiEdit3 } from "react-icons/fi";
-import { getAuthenticatedUserId } from "@/lib/auth/jwt";
 import EditProfile from "./_components/edit-profile";
 import LogoutButton from "./_components/logout-button";
 import GameCard from "@/components/main/game-card";
-import Link from "next/link";
-import { IoAdd } from "react-icons/io5";
+import CreateGameButton from "./_components/create-game-button";
 
 export default async function page({
 	params,
@@ -26,10 +22,6 @@ export default async function page({
 		return <NotFound />;
 	}
 	const user = response.data;
-
-	// Check if this is the current user's profile
-	const currentUserId = await getAuthenticatedUserId();
-	const isOwnProfile = currentUserId === user.id;
 
 	// Fetch user's created games
 	const gamesResponse = await ApiClient.get<Game[]>(
@@ -65,16 +57,11 @@ export default async function page({
 								.toUpperCase()}
 						</AvatarFallback>
 					</Avatar>
-					{isOwnProfile && (
-						<div className="flex gap-2">
-							<EditProfile currentUser={user}>
-								<Button className="rounded-full text-xs sm:text-base bg-muted hover:bg-muted/90 h-6 sm:h-12 has-[>svg]:px-3.5 sm:has-[>svg]:px-7 -translate-y-1/2">
-									<FiEdit3 /> Edit Profile
-								</Button>
-							</EditProfile>
-							<LogoutButton />
-						</div>
-					)}
+					<div className="flex gap-2">
+						<EditProfile userProfile={user} />
+
+						<LogoutButton userProfile={user} />
+					</div>
 				</div>
 			</div>
 			<div className="mt-4 sm:mt-7 space-y-1 w-full max-w-full px-4 text-center sm:text-left">
@@ -95,39 +82,27 @@ export default async function page({
 			{/* Player Rank */}
 			{/* Player Active Lobbies */}
 			{/* Private user uncliamed rewards */}
-			{(games.length > 0 || isOwnProfile) && (
-				<div className="mt-8 sm:mt-12 px-4 sm:px-0">
-					<div className="flex justify-between items-center mb-4 sm:mb-6">
-						<h2 className="text-xl sm:text-3xl font-bold">
-							{isOwnProfile ? "My Games" : "Created Games"}
-						</h2>
-						{isOwnProfile && (
-							<Button
-								asChild
-								className="rounded-full text-xs sm:text-base h-8 sm:h-12 has-[>svg]:px-3.5 sm:has-[>svg]:px-7"
-							>
-								<Link href="/create-game">
-									<IoAdd className="text-lg sm:text-xl" />{" "}
-									Create Game
-								</Link>
-							</Button>
-						)}
-					</div>
-					{games.length > 0 ? (
-						<div className="grid grid-cols-1 gap-4 sm:gap-6">
-							{games.map((game) => (
-								<GameCard key={game.id} game={game} />
-							))}
-						</div>
-					) : (
-						<div className="text-center py-8 sm:py-12 text-muted-foreground">
-							<p className="text-sm sm:text-base">
-								No games created yet
-							</p>
-						</div>
-					)}
+			<div className="mt-8 sm:mt-12 px-4 sm:px-0">
+				<div className="flex justify-between items-center mb-4 sm:mb-6">
+					<h2 className="text-xl sm:text-3xl font-bold">
+						Created Games
+					</h2>
+					<CreateGameButton userProfile={user} />
 				</div>
-			)}
+				{games.length > 0 ? (
+					<div className="grid grid-cols-1 gap-4 sm:gap-6">
+						{games.map((game) => (
+							<GameCard key={game.id} game={game} />
+						))}
+					</div>
+				) : (
+					<div className="text-center py-8 sm:py-12 text-muted-foreground">
+						<p className="text-sm sm:text-base">
+							No games created yet
+						</p>
+					</div>
+				)}
+			</div>
 		</div>
 	);
 }
