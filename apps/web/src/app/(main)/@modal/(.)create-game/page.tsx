@@ -8,7 +8,7 @@ import {
 	DialogHeader,
 	DialogTitle,
 } from "@/components/ui/dialog";
-import CreateGameForm from "../../create-game/_components/create-game-form";
+import CreateGameForm from "@/components/main/create-game-form";
 
 export default function CreateGameModal() {
 	const router = useRouter();
@@ -19,7 +19,7 @@ export default function CreateGameModal() {
 
 	return (
 		<Dialog open={true} onOpenChange={handleClose}>
-			<DialogContent className="sm:max-w-2xl rounded-4xl max-h-[90vh] overflow-y-auto">
+			<DialogContent className="max-h-[90vh] overflow-y-auto rounded-4xl sm:max-w-2xl">
 				<DialogHeader>
 					<DialogTitle className="text-xl sm:text-2xl">
 						Create New Game

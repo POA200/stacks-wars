@@ -29,10 +29,7 @@ import type { Lobby, CreateLobbyRequest, Game, Token } from "@/lib/definitions";
 import { waitForTxConfirmed } from "@/lib/contract-utils/waitForTxConfirmed";
 import { deployStacksContract } from "@/lib/contract-utils/deploy";
 import { joinSponsoredContract } from "@/lib/contract-utils/join";
-import type {
-	AssetString,
-	ContractIdString,
-} from "@stacks/connect/dist/types/methods";
+import type { AssetString, ContractIdString } from "@stacks/transactions";
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { useUser, useUserLoading } from "@/lib/stores/user";
@@ -82,6 +79,7 @@ export default function SponsoredLobbyForm({
 	const isUserLoading = useUserLoading();
 	const isAuthenticated = !isUserLoading && user;
 	const form = useForm<SponsoredLobbyFormValues>({
+		// @ts-ignore - Zod v4 compatibility issue with @hookform/resolvers
 		resolver: zodResolver(sponsoredLobbySchema),
 		defaultValues: {
 			lobbyName: "",
@@ -144,16 +142,17 @@ export default function SponsoredLobbyForm({
 				}
 				setProgress("Deploying your contract");
 				await waitForTxConfirmed(deployResult.txid);
+				const contractAddress = `${user?.walletAddress}.${deployResult.name}`;
 				setLobbyCreationProgress({
-					contractAddress: deployResult.contractAddress,
+					contractAddress,
 					step: "deployed",
 					payload: {
 						...payload,
-						contractAddress: deployResult.contractAddress,
+						contractAddress,
 					},
 				});
 				const joinTxId = await joinSponsoredContract({
-					contract: deployResult.contractAddress as ContractIdString,
+					contract: contractAddress as ContractIdString,
 					amount,
 					isCreator: true,
 					tokenId:
@@ -172,11 +171,11 @@ export default function SponsoredLobbyForm({
 				setProgress("Adding you to the contract");
 				await waitForTxConfirmed(joinTxId);
 				setLobbyCreationProgress({
-					contractAddress: deployResult.contractAddress,
+					contractAddress,
 					step: "joined",
 					payload: {
 						...payload,
-						contractAddress: deployResult.contractAddress,
+						contractAddress,
 					},
 				});
 			} catch (error) {
@@ -340,9 +339,9 @@ export default function SponsoredLobbyForm({
 												key={token.contractId}
 												value={token.contractId}
 											>
-												<div className="flex items-center justify-between w-full">
+												<div className="flex w-full items-center justify-between">
 													<span>{token.name}</span>
-													<span className="text-xs ml-4 text-foreground/70 font-mono">
+													<span className="text-foreground/70 ml-4 font-mono text-xs">
 														(
 														{formatAmount(
 															token.balance
@@ -363,17 +362,17 @@ export default function SponsoredLobbyForm({
 					The total prize pool you will fund. Minimum:{" "}
 					{minimumAmount.toFixed(2)} ≈ $10
 				</FormDescription>
-				{error && <p className="text-sm text-destructive">{error}</p>}
+				{error && <p className="text-destructive text-sm">{error}</p>}
 				{isUserLoading ? (
-					<Skeleton className="flex justify-self-end w-full sm:w-fit rounded-full h-13 sm:min-w-30" />
+					<Skeleton className="flex h-13 w-full justify-self-end rounded-full sm:w-fit sm:min-w-30" />
 				) : isAuthenticated ? (
 					<Button
 						type="submit"
-						className="flex justify-self-end w-full sm:w-fit rounded-full"
+						className="flex w-full justify-self-end rounded-full sm:w-fit"
 						disabled={form.formState.isSubmitting}
 					>
 						{form.formState.isSubmitting && (
-							<Loader2 className="mr-2 h-4 w-4 animate-spin inline-block align-middle" />
+							<Loader2 className="mr-2 inline-block h-4 w-4 animate-spin align-middle" />
 						)}
 						{form.formState.isSubmitting
 							? progress || "Creating..."
@@ -382,7 +381,7 @@ export default function SponsoredLobbyForm({
 				) : (
 					<Button
 						type="button"
-						className="flex justify-self-end w-full sm:w-fit rounded-full"
+						className="flex w-full justify-self-end rounded-full sm:w-fit"
 						asChild
 					>
 						<Link href="/login">Login to Create a Lobby</Link>

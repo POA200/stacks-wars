@@ -1,4 +1,3 @@
-import { request } from "@stacks/connect";
 import type {
 	AssetString,
 	ContractIdString,
@@ -7,6 +6,11 @@ import type {
 } from "@stacks/transactions";
 import { ClarityType } from "@stacks/transactions";
 import { generateSignature } from "./signature";
+
+let request: typeof import("@stacks/connect").request;
+if (typeof window !== "undefined") {
+	request = (await import("@stacks/connect")).request;
+}
 
 /**
  * Leave a normal lobby contract

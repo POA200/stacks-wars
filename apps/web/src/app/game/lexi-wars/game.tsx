@@ -54,18 +54,18 @@ export default function LexiWarsGame({
 	return (
 		<>
 			<RoomHeader />
-			<div className="max-w-2xl py-6 space-y-6 mx-auto">
+			<div className="mx-auto max-w-2xl space-y-6 py-6">
 				{/* Game Header */}
-				<div className="rounded-lg border bg-card p-4">
+				<div className="bg-card rounded-lg border p-4">
 					<div className="flex items-center justify-between">
 						<div>
 							<h2 className="text-xl font-bold">{lobby.name}</h2>
-							<p className="text-sm text-muted-foreground">
+							<p className="text-muted-foreground text-sm">
 								{game.name}
 							</p>
 						</div>
 						<div className="text-right">
-							<div className="text-sm text-muted-foreground">
+							<div className="text-muted-foreground text-sm">
 								Players
 							</div>
 							<div className="text-lg font-semibold">
@@ -76,11 +76,11 @@ export default function LexiWarsGame({
 				</div>
 
 				{/* Turn Indicator with Timer */}
-				<div className="rounded-lg border bg-card p-4">
+				<div className="bg-card rounded-lg border p-4">
 					{state.currentPlayer ? (
 						<div className="flex items-center justify-between">
 							<div>
-								<p className="text-sm text-muted-foreground">
+								<p className="text-muted-foreground text-sm">
 									{isMyTurn ? "Your Turn!" : "Current Turn"}
 								</p>
 								<p className="text-lg font-semibold">
@@ -111,11 +111,11 @@ export default function LexiWarsGame({
 
 				{/* Rule Display */}
 				{state.currentRule && (
-					<div className="rounded-lg border border-primary bg-primary/5 p-4">
-						<p className="text-sm font-medium text-primary">
+					<div className="border-primary bg-primary/5 rounded-lg border p-4">
+						<p className="text-primary text-sm font-medium">
 							Current Rule
 						</p>
-						<p className="text-sm text-muted-foreground">
+						<p className="text-muted-foreground text-sm">
 							{state.currentRule.description}
 						</p>
 					</div>
@@ -151,8 +151,8 @@ export default function LexiWarsGame({
 			</div>
 
 			{/* Floating Chat Button - stays within container bounds */}
-			<div className="fixed bottom-6 left-0 right-0 z-40 pointer-events-none">
-				<div className="container max-w-2xl mx-auto px-4 flex justify-end">
+			<div className="pointer-events-none fixed right-0 bottom-6 left-0 z-40">
+				<div className="container mx-auto flex max-w-2xl justify-end px-4">
 					<ChatDialog
 						buttonVariant="default"
 						buttonClassName="size-12 shadow-lg pointer-events-auto"

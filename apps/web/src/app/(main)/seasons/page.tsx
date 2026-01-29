@@ -8,10 +8,10 @@ export default async function SeasonsPage() {
 	return (
 		<div className="container mx-auto px-4">
 			<div className="py-4 lg:py-15">
-				<h1 className="text-2xl md:text-5xl font-bold text-center mb-2">
+				<h1 className="mb-2 text-center text-2xl font-bold md:text-5xl">
 					Seasons
 				</h1>
-				<p className="text-xs md:text-2xl font-medium text-center">
+				<p className="text-center text-xs font-medium md:text-2xl">
 					Track seasonal competitions and leaderboard periods
 				</p>
 			</div>

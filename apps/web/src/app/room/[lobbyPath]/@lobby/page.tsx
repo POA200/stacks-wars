@@ -27,10 +27,7 @@ import {
 	leaveNormalContract,
 	leaveSponsoredContract,
 } from "@/lib/contract-utils/leave";
-import type {
-	AssetString,
-	ContractIdString,
-} from "@stacks/connect/dist/types/methods";
+import type { AssetString, ContractIdString } from "@stacks/transactions";
 import { toast } from "sonner";
 import { waitForTxConfirmed } from "@/lib/contract-utils/waitForTxConfirmed";
 
@@ -207,18 +204,18 @@ export default function LobbySlot() {
 		<div className="container mx-auto p-4 pt-0">
 			{/* Countdown Overlay */}
 			{countdown !== null && countdown > 0 && (
-				<div className="fixed inset-0 z-50 flex items-center justify-center bg-background/80 backdrop-blur-sm">
+				<div className="bg-background/80 fixed inset-0 z-50 flex items-center justify-center backdrop-blur-sm">
 					<div className="flex flex-col items-center gap-6 text-center">
-						<p className="text-lg sm:text-xl text-muted-foreground">
+						<p className="text-muted-foreground text-lg sm:text-xl">
 							Game starting in
 						</p>
 						<div className="relative flex items-center justify-center">
-							<div className="absolute size-32 sm:size-40 lg:size-48 rounded-full border-4 border-primary/20" />
+							<div className="border-primary/20 absolute size-32 rounded-full border-4 sm:size-40 lg:size-48" />
 							<div
-								className="absolute size-32 sm:size-40 lg:size-48 rounded-full border-4 border-primary border-t-transparent animate-spin"
+								className="border-primary absolute size-32 animate-spin rounded-full border-4 border-t-transparent sm:size-40 lg:size-48"
 								style={{ animationDuration: "1s" }}
 							/>
-							<span className="text-6xl sm:text-7xl lg:text-8xl font-bold text-primary">
+							<span className="text-primary text-6xl font-bold sm:text-7xl lg:text-8xl">
 								{countdown}
 							</span>
 						</div>
@@ -260,11 +257,11 @@ export default function LobbySlot() {
 				<Participants />
 			</div>
 			{canStartGame && (
-				<div className="fixed bottom-0 left-0 right-0 p-3 sm:p-4 ">
-					<div className="container mx-auto pointer-events-auto">
+				<div className="fixed right-0 bottom-0 left-0 p-3 sm:p-4">
+					<div className="pointer-events-auto container mx-auto">
 						<Button
 							size="lg"
-							className="w-full sm:max-w-md mx-auto flex rounded-full text-sm sm:text-base lg:text-xl font-semibold h-11 sm:h-12 lg:h-14"
+							className="mx-auto flex h-11 w-full rounded-full text-sm font-semibold sm:h-12 sm:max-w-md sm:text-base lg:h-14 lg:text-xl"
 							onClick={handleStartGame}
 							disabled={!isConnected || isStartGameLoading}
 						>

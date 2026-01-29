@@ -3,7 +3,11 @@ import GameCard from "@/components/main/game-card";
 import { ApiClient } from "@/lib/api/client";
 import type { Game } from "@/lib/definitions";
 import Image from "next/image";
-import CreateLobbyForm from "./_components/create-lobby-form";
+import dynamic from "next/dynamic";
+
+const CreateLobbyForm = dynamic(
+	() => import("./_components/create-lobby-form")
+);
 
 export default async function CreateLobbyPage({
 	params,
@@ -22,8 +26,8 @@ export default async function CreateLobbyPage({
 		<div className="container mx-auto px-4">
 			<GameCard game={game.data} action="gamePage" />
 			<div className="mx-auto max-w-3xl py-4">
-				<div className="flex items-center gap-4 mb-4 sm:mb-8">
-					<div className="bg-primary/50 p-4.5 rounded-full inline-block">
+				<div className="mb-4 flex items-center gap-4 sm:mb-8">
+					<div className="bg-primary/50 inline-block rounded-full p-4.5">
 						<Image
 							src={"/icons/screen-users.svg"}
 							alt="create lobby icon"
@@ -33,7 +37,7 @@ export default async function CreateLobbyPage({
 						/>
 					</div>
 					<div>
-						<h1 className="text-base sm:text-2xl font-medium">
+						<h1 className="text-base font-medium sm:text-2xl">
 							Create a Lobby
 						</h1>
 						<p className="text-xs sm:text-xl">

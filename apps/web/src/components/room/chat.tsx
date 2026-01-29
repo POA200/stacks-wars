@@ -138,7 +138,7 @@ export default function ChatDialog({
 						>
 							<MessageCircle className="size-5" />
 							{messages.length > 0 && (
-								<span className="absolute -top-1 -right-1 flex h-4 w-4 items-center justify-center rounded-full bg-primary text-[10px] font-medium text-primary-foreground">
+								<span className="bg-primary text-primary-foreground absolute -top-1 -right-1 flex h-4 w-4 items-center justify-center rounded-full text-[10px] font-medium">
 									{messages.length > 99
 										? "99+"
 										: messages.length}
@@ -154,15 +154,15 @@ export default function ChatDialog({
 
 			<DialogContent
 				className={cn(
-					"flex flex-col max-w-md h-[70vh] max-h-150 p-0 gap-0",
+					"flex h-[70vh] max-h-150 max-w-md flex-col gap-0 p-0",
 					className
 				)}
 			>
-				<DialogHeader className="px-4 py-3 border-b shrink-0">
+				<DialogHeader className="shrink-0 border-b px-4 py-3">
 					<DialogTitle className="flex items-center gap-2">
 						<MessageCircle className="size-5" />
 						Lobby Chat
-						<span className="text-xs font-normal text-muted-foreground">
+						<span className="text-muted-foreground text-xs font-normal">
 							({players.length} online)
 						</span>
 					</DialogTitle>
@@ -170,14 +170,14 @@ export default function ChatDialog({
 
 				{/* Messages Area */}
 				<ScrollArea ref={scrollRef} className="flex-1 px-4">
-					<div className="py-4 space-y-3">
+					<div className="space-y-3 py-4">
 						{messages.length === 0 ? (
 							<div className="flex flex-col items-center justify-center py-12 text-center">
-								<MessageCircle className="size-12 text-muted-foreground/30 mb-3" />
-								<p className="text-sm text-muted-foreground">
+								<MessageCircle className="text-muted-foreground/30 mb-3 size-12" />
+								<p className="text-muted-foreground text-sm">
 									No messages yet
 								</p>
-								<p className="text-xs text-muted-foreground/70">
+								<p className="text-muted-foreground/70 text-xs">
 									Be the first to say something!
 								</p>
 							</div>
@@ -203,14 +203,14 @@ export default function ChatDialog({
 												isOwn && "flex-row-reverse"
 											)}
 										>
-											<span className="text-xs font-medium text-muted-foreground">
+											<span className="text-muted-foreground text-xs font-medium">
 												{isOwn
 													? "You"
 													: getDisplayName(
 															msg.userId
 														)}
 											</span>
-											<span className="text-[10px] text-muted-foreground/60">
+											<span className="text-muted-foreground/60 text-[10px]">
 												{new Date(
 													msg.createdAt
 												).toLocaleTimeString([], {
@@ -223,7 +223,7 @@ export default function ChatDialog({
 										{/* Message bubble */}
 										<div
 											className={cn(
-												"relative max-w-[85%] w-fit rounded-2xl px-3 py-2 text-sm",
+												"relative w-fit max-w-[85%] rounded-2xl px-3 py-2 text-sm",
 												isOwn
 													? "bg-primary text-primary-foreground rounded-br-md"
 													: "bg-muted rounded-bl-md"
@@ -242,15 +242,15 @@ export default function ChatDialog({
 													)
 												}
 												className={cn(
-													"absolute -bottom-2 opacity-0 group-hover:opacity-100 transition-opacity",
-													"flex h-6 w-6 items-center justify-center rounded-full bg-background border shadow-sm",
+													"absolute -bottom-2 opacity-0 transition-opacity group-hover:opacity-100",
+													"bg-background flex h-6 w-6 items-center justify-center rounded-full border shadow-sm",
 													"hover:bg-muted",
 													isOwn
 														? "left-0 -translate-x-1/2"
 														: "right-0 translate-x-1/2"
 												)}
 											>
-												<Smile className="size-3 text-muted-foreground" />
+												<Smile className="text-muted-foreground size-3" />
 											</button>
 
 											{/* Quick reaction picker */}
@@ -258,7 +258,7 @@ export default function ChatDialog({
 												msg.messageId && (
 												<div
 													className={cn(
-														"absolute -bottom-9 z-10 flex gap-1 rounded-full bg-background border shadow-lg px-2 py-1",
+														"bg-background absolute -bottom-9 z-10 flex gap-1 rounded-full border px-2 py-1 shadow-lg",
 														isOwn
 															? "right-0"
 															: "left-0"
@@ -274,7 +274,7 @@ export default function ChatDialog({
 																		emoji
 																	)
 																}
-																className="hover:scale-125 transition-transform text-base"
+																className="text-base transition-transform hover:scale-125"
 															>
 																{emoji}
 															</button>
@@ -289,7 +289,7 @@ export default function ChatDialog({
 											0 && (
 											<div
 												className={cn(
-													"flex gap-1 flex-wrap mt-1",
+													"mt-1 flex flex-wrap gap-1",
 													isOwn && "justify-end"
 												)}
 											>
@@ -299,13 +299,13 @@ export default function ChatDialog({
 													<button
 														key={emoji}
 														className={cn(
-															"text-xs px-2 py-0.5 rounded-full border transition-colors",
+															"rounded-full border px-2 py-0.5 text-xs transition-colors",
 															user?.id &&
 																userIds.includes(
 																	user.id
 																)
 																? "bg-primary/10 border-primary/30"
-																: "bg-muted/50 border-transparent hover:border-muted-foreground/20"
+																: "bg-muted/50 hover:border-muted-foreground/20 border-transparent"
 														)}
 														onClick={() =>
 															toggleReaction(
@@ -328,19 +328,19 @@ export default function ChatDialog({
 				</ScrollArea>
 
 				{/* Input Area */}
-				<div className="p-3 border-t shrink-0">
+				<div className="shrink-0 border-t p-3">
 					<div className="flex gap-2">
 						<Input
 							placeholder="Type a message..."
 							value={newMessage}
 							onChange={(e) => setNewMessage(e.target.value)}
 							onKeyDown={handleKeyPress}
-							className="flex-1 rounded-full bg-muted border-0 focus-visible:ring-1"
+							className="bg-muted flex-1 rounded-full border-0 focus-visible:ring-1"
 						/>
 						<Button
 							onClick={handleSend}
 							size="icon"
-							className="rounded-full shrink-0"
+							className="shrink-0 rounded-full"
 							disabled={!newMessage.trim() || isSending}
 						>
 							<Send className="size-4" />

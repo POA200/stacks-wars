@@ -28,12 +28,12 @@ import type { Lobby, CreateLobbyRequest, Game } from "@/lib/definitions";
 import { waitForTxConfirmed } from "@/lib/contract-utils/waitForTxConfirmed";
 import { deployStacksContract } from "@/lib/contract-utils/deploy";
 import { joinNormalContract } from "@/lib/contract-utils/join";
-import type { ContractIdString } from "@stacks/connect/dist/types/methods";
 import { useState } from "react";
 import { useUser, useUserLoading } from "@/lib/stores/user";
 import { useRouter } from "next/navigation";
 import { useAppActions } from "@/lib/stores/app";
 import { Loader2 } from "lucide-react";
+import type { ContractIdString } from "@stacks/transactions";
 
 const normalLobbySchema = z.object({
 	lobbyName: z
@@ -76,6 +76,7 @@ export default function NormalLobbyForm({
 	const isUserLoading = useUserLoading();
 	const isAuthenticated = !isUserLoading && user;
 	const form = useForm<NormalLobbyFormValues>({
+		// @ts-ignore - Zod v4 compatibility issue with @hookform/resolvers
 		resolver: zodResolver(normalLobbySchema),
 		defaultValues: {
 			lobbyName: "",
@@ -132,17 +133,17 @@ export default function NormalLobbyForm({
 					}
 					setProgress("Deploying your contract");
 					await waitForTxConfirmed(deployResult.txid);
+					const contractAddress = `${user?.walletAddress}.${deployResult.name}`;
 					setLobbyCreationProgress({
-						contractAddress: deployResult.contractAddress,
+						contractAddress,
 						step: "deployed",
 						payload: {
 							...payload,
-							contractAddress: deployResult.contractAddress,
+							contractAddress,
 						},
 					});
 					const joinTxId = await joinNormalContract({
-						contract:
-							deployResult.contractAddress as ContractIdString,
+						contract: contractAddress as ContractIdString,
 						amount,
 						address: user!.walletAddress,
 					});
@@ -158,11 +159,11 @@ export default function NormalLobbyForm({
 					setProgress("Adding you to the contract");
 					await waitForTxConfirmed(joinTxId);
 					setLobbyCreationProgress({
-						contractAddress: deployResult.contractAddress,
+						contractAddress,
 						step: "joined",
 						payload: {
 							...payload,
-							contractAddress: deployResult.contractAddress,
+							contractAddress,
 						},
 					});
 				} catch (error) {
@@ -301,17 +302,17 @@ export default function NormalLobbyForm({
 						</FormItem>
 					)}
 				/>
-				{error && <p className="text-sm text-destructive">{error}</p>}
+				{error && <p className="text-destructive text-sm">{error}</p>}
 				{isUserLoading ? (
-					<Skeleton className="flex justify-self-end w-full sm:w-fit rounded-full h-13 sm:min-w-30" />
+					<Skeleton className="flex h-13 w-full justify-self-end rounded-full sm:w-fit sm:min-w-30" />
 				) : isAuthenticated ? (
 					<Button
 						type="submit"
-						className="flex justify-self-end w-full sm:w-fit rounded-full"
+						className="flex w-full justify-self-end rounded-full sm:w-fit"
 						disabled={form.formState.isSubmitting}
 					>
 						{form.formState.isSubmitting && (
-							<Loader2 className="mr-2 h-4 w-4 animate-spin inline-block align-middle" />
+							<Loader2 className="mr-2 inline-block h-4 w-4 animate-spin align-middle" />
 						)}
 						{form.formState.isSubmitting
 							? progress || "Creating..."
@@ -320,7 +321,7 @@ export default function NormalLobbyForm({
 				) : (
 					<Button
 						type="button"
-						className="flex justify-self-end w-full sm:w-fit rounded-full"
+						className="flex w-full justify-self-end rounded-full sm:w-fit"
 						asChild
 					>
 						<Link href="/login">Login to Create a Lobby</Link>

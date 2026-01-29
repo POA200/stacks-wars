@@ -1,6 +1,9 @@
-import { request } from "@stacks/connect";
 import { nanoid } from "nanoid";
-import { getStxAddress } from "../wallet";
+
+let request: typeof import("@stacks/connect").request;
+if (typeof window !== "undefined") {
+	request = (await import("@stacks/connect")).request;
+}
 
 /**
  * Deploy a Stacks contract
@@ -19,7 +22,5 @@ export async function deployStacksContract(params: {
 		network,
 	});
 
-	const contractAddress = `${getStxAddress()}.${name}`;
-
-	return { txid: result.txid, contractAddress };
+	return { txid: result.txid, name };
 }

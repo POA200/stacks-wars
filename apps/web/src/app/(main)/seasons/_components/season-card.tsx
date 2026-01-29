@@ -47,16 +47,16 @@ export default function SeasonCard({ season, onUpdate }: SeasonCardProps) {
 		<>
 			<div
 				className={cn(
-					"rounded-3xl border bg-card p-6 transition-all hover:shadow-md",
+					"bg-card rounded-3xl border p-6 transition-all hover:shadow-md",
 					status === "active" && "border-primary bg-primary/5"
 				)}
 			>
-				<div className="flex flex-col sm:flex-row sm:items-start justify-between gap-4">
+				<div className="flex flex-col justify-between gap-4 sm:flex-row sm:items-start">
 					{/* Season Info */}
 					<div className="flex-1 space-y-3">
 						<div className="flex items-start gap-3">
 							<div className="flex-1">
-								<div className="flex items-center gap-2 mb-1">
+								<div className="mb-1 flex items-center gap-2">
 									<h3 className="text-xl font-bold">
 										{season.name}
 									</h3>
@@ -70,7 +70,7 @@ export default function SeasonCard({ season, onUpdate }: SeasonCardProps) {
 										}
 										className={cn(
 											status === "active" &&
-												"bg-green-500/10 text-green-500 border-green-500/50"
+												"border-green-500/50 bg-green-500/10 text-green-500"
 										)}
 									>
 										{status.charAt(0).toUpperCase() +
@@ -78,7 +78,7 @@ export default function SeasonCard({ season, onUpdate }: SeasonCardProps) {
 									</Badge>
 								</div>
 								{season.description && (
-									<p className="text-sm text-muted-foreground">
+									<p className="text-muted-foreground text-sm">
 										{season.description}
 									</p>
 								)}
@@ -86,9 +86,9 @@ export default function SeasonCard({ season, onUpdate }: SeasonCardProps) {
 						</div>
 
 						{/* Dates */}
-						<div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+						<div className="grid grid-cols-1 gap-3 sm:grid-cols-2">
 							<div className="flex items-center gap-2 text-sm">
-								<Calendar className="size-4 text-muted-foreground" />
+								<Calendar className="text-muted-foreground size-4" />
 								<div>
 									<p className="text-muted-foreground">
 										Start Date
@@ -99,7 +99,7 @@ export default function SeasonCard({ season, onUpdate }: SeasonCardProps) {
 								</div>
 							</div>
 							<div className="flex items-center gap-2 text-sm">
-								<Clock className="size-4 text-muted-foreground" />
+								<Clock className="text-muted-foreground size-4" />
 								<div>
 									<p className="text-muted-foreground">
 										End Date
@@ -116,7 +116,7 @@ export default function SeasonCard({ season, onUpdate }: SeasonCardProps) {
 					<Button
 						variant="outline"
 						onClick={() => setIsEditDialogOpen(true)}
-						className="gap-2 shrink-0 rounded-full"
+						className="shrink-0 gap-2 rounded-full"
 					>
 						<Edit className="size-4" />
 						Edit

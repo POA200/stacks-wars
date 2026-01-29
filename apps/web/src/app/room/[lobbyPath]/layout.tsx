@@ -1,16 +1,16 @@
-import RoomContent from "./room-content";
+import dynamic from "next/dynamic";
+
+const RoomContent = dynamic(() => import("./room-content"));
 
 export default async function RoomLayout({
 	children,
 	lobby,
 	game,
-	modal,
 	params,
 }: {
 	children: React.ReactNode;
 	lobby: React.ReactNode;
 	game: React.ReactNode;
-	modal: React.ReactNode;
 	params: Promise<{ lobbyPath: string }>;
 }) {
 	const lobbyPath = (await params).lobbyPath;
@@ -18,7 +18,6 @@ export default async function RoomLayout({
 	return (
 		<RoomContent lobby={lobby} game={game} lobbyPath={lobbyPath}>
 			{children}
-			{modal}
 		</RoomContent>
 	);
 }

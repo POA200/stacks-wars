@@ -12,7 +12,7 @@ export default function ShareButton() {
 	return (
 		<Button
 			size="sm"
-			className="rounded-full has-[>svg]:px-5 px-5 py-2.5 gap-2 shrink-0"
+			className="shrink-0 gap-2 rounded-full px-5 py-2.5 has-[>svg]:px-5"
 			onClick={() => {
 				copy(`/room/${lobby?.path}`);
 				toast.info(`Room link copied to clipboard!`);

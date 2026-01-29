@@ -14,11 +14,16 @@ import {
 import { ApiClient } from "@/lib/api/client";
 import type { User } from "@/lib/definitions";
 import { useUser, useUserActions } from "@/lib/stores/user";
-import {
-	connectWallet,
-	disconnectWallet,
-	isWalletConnected,
-} from "@/lib/wallet";
+
+let connect: typeof import("@stacks/connect").connect;
+let disconnect: typeof import("@stacks/connect").disconnect;
+let isConnected: typeof import("@stacks/connect").isConnected;
+if (typeof window !== "undefined") {
+	const stacksConnect = require("@stacks/connect");
+	connect = stacksConnect.connect;
+	disconnect = stacksConnect.disconnect;
+	isConnected = stacksConnect.isConnected;
+}
 
 export default function LoginModal() {
 	const router = useRouter();
@@ -28,17 +33,17 @@ export default function LoginModal() {
 	const user = useUser();
 
 	const handleConnect = async () => {
-		// Check if already connected
-		if (isWalletConnected() || user != null) {
-			disconnectWallet();
-			clearUser();
-		}
-
 		setIsLoading(true);
 		setError(null);
 
+		// Check if already connected
+		if (isConnected() || user != null) {
+			disconnect();
+			clearUser();
+		}
+
 		try {
-			const walletAddress = await connectWallet();
+			const walletAddress = (await connect()).addresses[2].address;
 
 			// Authenticate with backend
 			const authResponse = await ApiClient.post<User>("/api/user", {
@@ -74,7 +79,7 @@ export default function LoginModal() {
 					</CardHeader>
 					<div className="flex flex-col gap-4">
 						{error && (
-							<div className="rounded-md bg-destructive/10 p-3 text-sm text-destructive">
+							<div className="bg-destructive/10 text-destructive rounded-md p-3 text-sm">
 								{error}
 							</div>
 						)}
@@ -93,7 +98,7 @@ export default function LoginModal() {
 								"Connect with Stacks Wallet"
 							)}
 						</Button>
-						<p className="text-center text-xs text-muted-foreground">
+						<p className="text-muted-foreground text-center text-xs">
 							By connecting your wallet, you agree to our Terms of
 							Service and Privacy Policy.
 						</p>

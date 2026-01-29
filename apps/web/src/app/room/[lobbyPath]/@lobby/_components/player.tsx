@@ -39,12 +39,12 @@ export default function Player({
 		? useIsActionLoading(rejectActionKey)
 		: false;
 	return (
-		<div className="bg-card px-3 sm:px-4 lg:px-6 py-3 sm:py-4 rounded-xl sm:rounded-2xl flex justify-between items-center gap-3">
+		<div className="bg-card flex items-center justify-between gap-3 rounded-xl px-3 py-3 sm:rounded-2xl sm:px-4 sm:py-4 lg:px-6">
 			<Link
 				href={`/u/${player.username || player.walletAddress}`}
-				className="flex gap-2 sm:gap-3 items-center min-w-0 flex-1"
+				className="flex min-w-0 flex-1 items-center gap-2 sm:gap-3"
 			>
-				<Avatar className="size-10 sm:size-12 lg:size-15 uppercase shrink-0">
+				<Avatar className="size-10 shrink-0 uppercase sm:size-12 lg:size-15">
 					<AvatarImage src={""} alt="player profile picture" />
 					<AvatarFallback>
 						{(
@@ -57,17 +57,17 @@ export default function Player({
 				<div className="min-w-0 flex-1">
 					{player.displayName ? (
 						<>
-							<p className="text-sm sm:text-base lg:text-xl font-medium truncate">
+							<p className="truncate text-sm font-medium sm:text-base lg:text-xl">
 								{player.displayName}
 							</p>
-							<p className="text-xs sm:text-sm lg:text-base text-muted-foreground truncate">
+							<p className="text-muted-foreground truncate text-xs sm:text-sm lg:text-base">
 								@
 								{player.username ||
 									formatAddress(player.walletAddress)}
 							</p>
 						</>
 					) : (
-						<p className="text-sm sm:text-base lg:text-xl font-medium truncate">
+						<p className="truncate text-sm font-medium sm:text-base lg:text-xl">
 							{player.username ||
 								formatAddress(player.walletAddress)}
 						</p>
@@ -75,7 +75,7 @@ export default function Player({
 				</div>
 			</Link>
 
-			<div className="flex items-center gap-2 shrink-0">
+			<div className="flex shrink-0 items-center gap-2">
 				{player.isCreator && (
 					<Badge variant={"secondary"} className="text-xs sm:text-sm">
 						Creator
@@ -83,7 +83,7 @@ export default function Player({
 				)}
 				<p className="flex items-center gap-1 text-sm sm:text-base">
 					<span>{player.trustRating}</span>
-					<IoStar className="text-yellow-400 size-3 sm:size-4" />
+					<IoStar className="size-3 text-yellow-400 sm:size-4" />
 				</p>
 			</div>
 
@@ -92,7 +92,7 @@ export default function Player({
 					{player.state === "pending" && (
 						<div className="flex gap-2 sm:gap-3 lg:gap-4">
 							<Button
-								className="rounded-full text-xs sm:text-sm lg:text-base font-medium px-3 sm:px-4 h-8 sm:h-9 lg:h-10"
+								className="h-8 rounded-full px-3 text-xs font-medium sm:h-9 sm:px-4 sm:text-sm lg:h-10 lg:text-base"
 								onClick={() => onApprove?.(player.userId)}
 								disabled={isApproving || isRejecting}
 							>
@@ -100,7 +100,7 @@ export default function Player({
 							</Button>
 							<Button
 								variant={"outline"}
-								className="rounded-full text-xs sm:text-sm lg:text-base font-medium px-3 sm:px-4 h-8 sm:h-9 lg:h-10"
+								className="h-8 rounded-full px-3 text-xs font-medium sm:h-9 sm:px-4 sm:text-sm lg:h-10 lg:text-base"
 								onClick={() => onReject?.(player.userId)}
 								disabled={isApproving || isRejecting}
 							>
@@ -111,7 +111,7 @@ export default function Player({
 					{player.state === "accepted" && (
 						<Button
 							variant={"outline"}
-							className="rounded-full text-xs sm:text-sm lg:text-base font-medium px-3 sm:px-4 h-8 sm:h-9 lg:h-10"
+							className="h-8 rounded-full px-3 text-xs font-medium sm:h-9 sm:px-4 sm:text-sm lg:h-10 lg:text-base"
 							onClick={() =>
 								onKick?.(player.userId, player.walletAddress)
 							}

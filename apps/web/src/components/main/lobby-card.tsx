@@ -12,16 +12,16 @@ export default function LobbyCard({ lobbyInfo }: { lobbyInfo: LobbyInfo }) {
 	const { lobby, game, creator } = lobbyInfo;
 
 	return (
-		<div className="bg-card border p-4 sm:p-6 lg:p-8 rounded-3xl w-full space-y-4 sm:space-y-6">
+		<div className="bg-card w-full space-y-4 rounded-3xl border p-4 sm:space-y-6 sm:p-6 lg:p-8">
 			<div className="space-y-3 sm:space-y-4">
 				<div className="flex items-center justify-between gap-2">
 					<div className="min-w-0">
-						<p className="truncate text-base sm:text-lg lg:text-xl font-semibold">
+						<p className="truncate text-base font-semibold sm:text-lg lg:text-xl">
 							{lobby.name}
 						</p>
 						<Link
 							href={`/u/${creator.username || creator.walletAddress}`}
-							className="truncate text-xs sm:text-sm text-muted-foreground"
+							className="text-muted-foreground truncate text-xs sm:text-sm"
 						>
 							Creator -{" "}
 							<span className="text-foreground">
@@ -29,14 +29,14 @@ export default function LobbyCard({ lobbyInfo }: { lobbyInfo: LobbyInfo }) {
 							</span>
 						</Link>
 					</div>
-					<Badge className="py-1.5 sm:py-2 px-2.5 sm:px-3.5 text-xs sm:text-sm font-medium">
+					<Badge className="px-2.5 py-1.5 text-xs font-medium sm:px-3.5 sm:py-2 sm:text-sm">
 						{lobby.status === "inProgress"
 							? "In Progress"
 							: lobby.status}
 					</Badge>
 				</div>
 
-				<div className="text-xs sm:text-sm lg:text-base flex items-center gap-3 sm:gap-4">
+				<div className="flex items-center gap-3 text-xs sm:gap-4 sm:text-sm lg:text-base">
 					{lobby.isPrivate ? (
 						<p className="flex items-center gap-1.5">
 							<Lock className="size-4 lg:size-5" />
@@ -78,11 +78,11 @@ export default function LobbyCard({ lobbyInfo }: { lobbyInfo: LobbyInfo }) {
 					width={516}
 					height={185}
 					loading="lazy"
-					className="w-full h-30 lg:h-45 rounded-3xl"
+					className="h-30 w-full rounded-3xl lg:h-45"
 				/>
 
 				{lobby.description && (
-					<p className="text-xs sm:text-sm lg:text-base line-clamp-2">
+					<p className="line-clamp-2 text-xs sm:text-sm lg:text-base">
 						{lobby.description}
 					</p>
 				)}
@@ -91,7 +91,7 @@ export default function LobbyCard({ lobbyInfo }: { lobbyInfo: LobbyInfo }) {
 			<Button
 				asChild
 				variant={"secondary"}
-				className="rounded-full w-full text-sm sm:text-base lg:text-lg font-medium py-2.5 sm:py-3.5 lg:py-4"
+				className="w-full rounded-full py-2.5 text-sm font-medium sm:py-3.5 sm:text-base lg:py-4 lg:text-lg"
 			>
 				<Link href={`/room/${lobby.path}`}>Open Room</Link>
 			</Button>
@@ -101,27 +101,27 @@ export default function LobbyCard({ lobbyInfo }: { lobbyInfo: LobbyInfo }) {
 
 export function LobbyCardSkeleton() {
 	return (
-		<div className="bg-card border p-4 sm:p-6 lg:p-8 rounded-3xl w-full space-y-4 sm:space-y-6">
+		<div className="bg-card w-full space-y-4 rounded-3xl border p-4 sm:space-y-6 sm:p-6 lg:p-8">
 			<div className="space-y-3 sm:space-y-4">
 				<div className="flex items-center justify-between gap-2">
 					<div className="min-w-0 space-y-2">
-						<Skeleton className="h-5 sm:h-6 lg:h-7 w-40 lg:w-60" />
-						<Skeleton className="h-3.5 sm:h-4 w-32 lg:w-48" />
+						<Skeleton className="h-5 w-40 sm:h-6 lg:h-7 lg:w-60" />
+						<Skeleton className="h-3.5 w-32 sm:h-4 lg:w-48" />
 					</div>
-					<Skeleton className="h-7 sm:h-8 lg:h-9 w-20 lg:w-24 rounded-full" />
+					<Skeleton className="h-7 w-20 rounded-full sm:h-8 lg:h-9 lg:w-24" />
 				</div>
 				<div className="flex items-center gap-3 sm:gap-4">
-					<Skeleton className="h-4 sm:h-5 w-16 lg:w-20" />
-					<Skeleton className="h-4 sm:h-5 w-12 lg:w-16" />
-					<Skeleton className="h-4 sm:h-5 w-20 lg:w-24" />
+					<Skeleton className="h-4 w-16 sm:h-5 lg:w-20" />
+					<Skeleton className="h-4 w-12 sm:h-5 lg:w-16" />
+					<Skeleton className="h-4 w-20 sm:h-5 lg:w-24" />
 				</div>
-				<Skeleton className="w-full h-30 lg:h-45 rounded-3xl" />
+				<Skeleton className="h-30 w-full rounded-3xl lg:h-45" />
 				<div className="space-y-2">
-					<Skeleton className="h-3.5 sm:h-4 w-full" />
-					<Skeleton className="h-3.5 sm:h-4 w-3/4" />
+					<Skeleton className="h-3.5 w-full sm:h-4" />
+					<Skeleton className="h-3.5 w-3/4 sm:h-4" />
 				</div>
 			</div>
-			<Skeleton className="h-9 sm:h-10 lg:h-12 w-full rounded-full" />
+			<Skeleton className="h-9 w-full rounded-full sm:h-10 lg:h-12" />
 		</div>
 	);
 }

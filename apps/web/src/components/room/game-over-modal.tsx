@@ -17,10 +17,7 @@ import {
 import { useUser } from "@/lib/stores/user";
 import { claimRewardContract } from "@/lib/contract-utils/claim";
 import { waitForTxConfirmed } from "@/lib/contract-utils/waitForTxConfirmed";
-import type {
-	AssetString,
-	ContractIdString,
-} from "@stacks/connect/dist/types/methods";
+import type { AssetString, ContractIdString } from "@stacks/transactions";
 import { toast } from "sonner";
 import { Trophy, Sparkles, Coins, Loader2 } from "lucide-react";
 import { cn } from "@/lib/utils";
@@ -133,7 +130,7 @@ export default function GameOverModal() {
 					<div className="w-full space-y-3">
 						{/* Prize (if won) */}
 						{prize != null && prize > 0 && (
-							<div className="flex items-center justify-between rounded-lg border bg-card p-4">
+							<div className="bg-card flex items-center justify-between rounded-lg border p-4">
 								<div className="flex items-center gap-3">
 									<div className="flex size-10 items-center justify-center rounded-full bg-green-500/10">
 										<Coins className="size-5 text-green-500" />
@@ -150,14 +147,14 @@ export default function GameOverModal() {
 						)}
 
 						{/* Wars Points */}
-						<div className="flex items-center justify-between rounded-lg border bg-card p-4">
+						<div className="bg-card flex items-center justify-between rounded-lg border p-4">
 							<div className="flex items-center gap-3">
-								<div className="flex size-10 items-center justify-center rounded-full bg-primary/10">
-									<Sparkles className="size-5 text-primary" />
+								<div className="bg-primary/10 flex size-10 items-center justify-center rounded-full">
+									<Sparkles className="text-primary size-5" />
 								</div>
 								<span className="font-medium">Wars Points</span>
 							</div>
-							<span className="text-xl font-bold text-primary">
+							<span className="text-primary text-xl font-bold">
 								+{warsPoint}
 							</span>
 						</div>
@@ -168,7 +165,7 @@ export default function GameOverModal() {
 					{prize != null && prize > 0 ? (
 						<Button
 							onClick={handleClaim}
-							className="w-full flex items-center justify-center"
+							className="flex w-full items-center justify-center"
 							disabled={isClaiming}
 						>
 							{isClaiming ? (
