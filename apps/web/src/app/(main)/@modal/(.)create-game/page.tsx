@@ -8,7 +8,7 @@ import {
 	DialogHeader,
 	DialogTitle,
 } from "@/components/ui/dialog";
-import CreateGameForm from "../../create-game/_components/create-game-form";
+import CreateGameForm from "@/components/main/create-game-form";
 
 export default function CreateGameModal() {
 	const router = useRouter();

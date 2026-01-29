@@ -7,10 +7,7 @@ import { useRoom } from "@/lib/contexts/room-context";
 import Player from "./player";
 import { Clock, Users } from "lucide-react";
 import { kickPlayerContract } from "@/lib/contract-utils/kick";
-import type {
-	AssetString,
-	ContractIdString,
-} from "@stacks/connect/dist/types/methods";
+import type { AssetString, ContractIdString } from "@stacks/transactions";
 import { toast } from "sonner";
 import { waitForTxConfirmed } from "@/lib/contract-utils/waitForTxConfirmed";
 

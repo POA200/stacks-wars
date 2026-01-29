@@ -1,11 +1,6 @@
 "use client";
 
 import { SiGoogle } from "@icons-pack/react-simple-icons";
-import {
-	connect,
-	getLocalStorage,
-	isConnected as isWalletConnected,
-} from "@stacks/connect";
 import { DOMAIN_NAME, siteConfig } from "@stacks-wars/shared";
 import { CheckCircle2, Loader2, Wallet } from "lucide-react";
 import Link from "next/link";
@@ -22,11 +17,14 @@ import {
 	DialogTitle,
 	DialogTrigger,
 } from "@/components/ui/dialog";
-import { authClient } from "@/lib/auth-client";
 import { ApiClient } from "@/lib/api/client";
 import type { User } from "@/lib/definitions";
 import { useUser, useUserActions } from "@/lib/stores/user";
-import { connectWallet, disconnectWallet } from "@/lib/wallet";
+
+let connect: typeof import("@stacks/connect").connect;
+if (typeof window !== "undefined") {
+	connect = (await import("@stacks/connect")).connect;
+}
 
 type AuthMode = "login" | "signup";
 type AuthType = "wallet" | "google";
@@ -61,7 +59,7 @@ export function AuthDialog({ trigger, open, mode = "login" }: AuthDialogProps) {
 				clearUser();
 			}
 
-			const address = await connectWallet();
+			const address = (await connect()).addresses[2].address;
 
 			if (!address) {
 				toast.error("Failed to connect to wallet");

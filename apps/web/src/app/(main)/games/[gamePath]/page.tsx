@@ -3,7 +3,11 @@ import GameCard from "@/components/main/game-card";
 import { ApiClient } from "@/lib/api/client";
 import type { Game } from "@/lib/definitions";
 import Image from "next/image";
-import CreateLobbyForm from "./_components/create-lobby-form";
+import dynamic from "next/dynamic";
+
+const CreateLobbyForm = dynamic(
+	() => import("./_components/create-lobby-form")
+);
 
 export default async function CreateLobbyPage({
 	params,

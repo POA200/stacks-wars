@@ -1,8 +1,12 @@
-import { request } from "@stacks/connect";
 import type { ContractIdString, StxPostCondition } from "@stacks/transactions";
 import { ClarityType } from "@stacks/transactions";
 import { generateSignature } from "./signature";
 import type { FungiblePostCondition, AssetString } from "@stacks/transactions";
+
+let request: typeof import("@stacks/connect").request;
+if (typeof window !== "undefined") {
+	request = (await import("@stacks/connect")).request;
+}
 
 /**
  * Claim rewards from the contract

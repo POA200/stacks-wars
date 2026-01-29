@@ -27,10 +27,7 @@ import {
 	leaveNormalContract,
 	leaveSponsoredContract,
 } from "@/lib/contract-utils/leave";
-import type {
-	AssetString,
-	ContractIdString,
-} from "@stacks/connect/dist/types/methods";
+import type { AssetString, ContractIdString } from "@stacks/transactions";
 import { toast } from "sonner";
 import { waitForTxConfirmed } from "@/lib/contract-utils/waitForTxConfirmed";
 

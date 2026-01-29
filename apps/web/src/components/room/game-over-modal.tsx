@@ -17,10 +17,7 @@ import {
 import { useUser } from "@/lib/stores/user";
 import { claimRewardContract } from "@/lib/contract-utils/claim";
 import { waitForTxConfirmed } from "@/lib/contract-utils/waitForTxConfirmed";
-import type {
-	AssetString,
-	ContractIdString,
-} from "@stacks/connect/dist/types/methods";
+import type { AssetString, ContractIdString } from "@stacks/transactions";
 import { toast } from "sonner";
 import { Trophy, Sparkles, Coins, Loader2 } from "lucide-react";
 import { cn } from "@/lib/utils";

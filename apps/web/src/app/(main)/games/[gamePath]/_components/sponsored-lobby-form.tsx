@@ -29,10 +29,7 @@ import type { Lobby, CreateLobbyRequest, Game, Token } from "@/lib/definitions";
 import { waitForTxConfirmed } from "@/lib/contract-utils/waitForTxConfirmed";
 import { deployStacksContract } from "@/lib/contract-utils/deploy";
 import { joinSponsoredContract } from "@/lib/contract-utils/join";
-import type {
-	AssetString,
-	ContractIdString,
-} from "@stacks/connect/dist/types/methods";
+import type { AssetString, ContractIdString } from "@stacks/transactions";
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { useUser, useUserLoading } from "@/lib/stores/user";
@@ -82,6 +79,7 @@ export default function SponsoredLobbyForm({
 	const isUserLoading = useUserLoading();
 	const isAuthenticated = !isUserLoading && user;
 	const form = useForm<SponsoredLobbyFormValues>({
+		// @ts-ignore - Zod v4 compatibility issue with @hookform/resolvers
 		resolver: zodResolver(sponsoredLobbySchema),
 		defaultValues: {
 			lobbyName: "",
@@ -144,16 +142,17 @@ export default function SponsoredLobbyForm({
 				}
 				setProgress("Deploying your contract");
 				await waitForTxConfirmed(deployResult.txid);
+				const contractAddress = `${user?.walletAddress}.${deployResult.name}`;
 				setLobbyCreationProgress({
-					contractAddress: deployResult.contractAddress,
+					contractAddress,
 					step: "deployed",
 					payload: {
 						...payload,
-						contractAddress: deployResult.contractAddress,
+						contractAddress,
 					},
 				});
 				const joinTxId = await joinSponsoredContract({
-					contract: deployResult.contractAddress as ContractIdString,
+					contract: contractAddress as ContractIdString,
 					amount,
 					isCreator: true,
 					tokenId:
@@ -172,11 +171,11 @@ export default function SponsoredLobbyForm({
 				setProgress("Adding you to the contract");
 				await waitForTxConfirmed(joinTxId);
 				setLobbyCreationProgress({
-					contractAddress: deployResult.contractAddress,
+					contractAddress,
 					step: "joined",
 					payload: {
 						...payload,
-						contractAddress: deployResult.contractAddress,
+						contractAddress,
 					},
 				});
 			} catch (error) {

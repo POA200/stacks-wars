@@ -5,9 +5,11 @@ import type { User, Game } from "@/lib/definitions";
 import { formatAddress } from "@/lib/utils";
 import Image from "next/image";
 import EditProfile from "./_components/edit-profile";
-import LogoutButton from "./_components/logout-button";
 import GameCard from "@/components/main/game-card";
 import CreateGameButton from "./_components/create-game-button";
+import dynamic from "next/dynamic";
+
+const LogoutButton = dynamic(() => import("./_components/logout-button"));
 
 export default async function page({
 	params,

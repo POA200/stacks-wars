@@ -1,10 +1,14 @@
-import { request } from "@stacks/connect";
 import type {
 	AssetString,
 	ContractIdString,
 	FungiblePostCondition,
 	StxPostCondition,
 } from "@stacks/transactions";
+
+let request: typeof import("@stacks/connect").request;
+if (typeof window !== "undefined") {
+	request = (await import("@stacks/connect")).request;
+}
 
 /**
  * Join a normal lobby contract

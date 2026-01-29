@@ -71,6 +71,7 @@ export default function EditProfile({ userProfile }: EditProfileProps) {
 	const router = useRouter();
 
 	const form = useForm<EditProfileFormValues>({
+		// @ts-ignore - Zod v4 compatibility issue with @hookform/resolvers
 		resolver: zodResolver(editProfileSchema),
 		defaultValues: {
 			username: userProfile.username || "",

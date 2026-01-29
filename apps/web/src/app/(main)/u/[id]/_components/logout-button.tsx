@@ -3,12 +3,16 @@
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { ApiClient } from "@/lib/api/client";
-import { disconnectWallet } from "@/lib/wallet";
 import { LogOut, Loader2 } from "lucide-react";
 import { toast } from "sonner";
 import { useRouter } from "next/navigation";
 import { useUser, useUserActions } from "@/lib/stores/user";
 import type { User } from "@/lib/definitions";
+
+let disconnect: typeof import("@stacks/connect").disconnect;
+if (typeof window !== "undefined") {
+	disconnect = (await import("@stacks/connect")).disconnect;
+}
 
 interface LogoutButtonProps {
 	userProfile: User;
@@ -24,7 +28,7 @@ export default function LogoutButton({ userProfile }: LogoutButtonProps) {
 		setIsLoggingOut(true);
 
 		try {
-			disconnectWallet();
+			disconnect();
 
 			// Call backend logout to revoke token and clear cookie
 			await ApiClient.post("/api/logout");

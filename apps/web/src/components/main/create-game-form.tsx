@@ -100,6 +100,7 @@ export default function CreateGameForm({ onSuccess }: CreateGameFormProps) {
 	const router = useRouter();
 
 	const form = useForm<CreateGameFormValues>({
+		// @ts-ignore - Zod v4 compatibility issue with @hookform/resolvers
 		resolver: zodResolver(createGameSchema),
 		defaultValues: {
 			name: "",
